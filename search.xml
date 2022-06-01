@@ -129,5 +129,11 @@
 <p>p为1024位时，需最高知道p的高位的576位，位数不够时需爆破。 <span class="math display">\[ 在这个问题中，我们的目标是找到模N意义下多项式f所有的根，通过LLL算法，我们能找到\ 与该多项式具有相同的根x_0,\ 更小系数，\ 定义在整数域，\ 上的多项式g。从而我们就得到了原多项式在模意义下的整数根. \]</span></p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from sage.all import *</span><br><span class="line">n = 25348605574630284342864323710011622959543974652863854537355760576386763162531478272446867731299572532294812374775121121761898206639041068156270466457595336452690367719842145233764550634280981441631262047763246059814963741143303914063537003244814908763379320576260885158458898112416692583017869283284022878603506583499699525249773663841642694427307104140944360804367072787670581252816486834658346431010523135392357008103555699542414687172408709153334263858639251735462278292703380745537045458408951791720967957274781161667526873251066303708008043058246747534357368350540174588670636827470901518225473676343782182718627</span><br><span class="line">p4 =0x3e67e7cacd2584224fb2026b40afbcc4281bd59f72f7801239d95c61c48ded7649924f794592fce806e032f16c2f4a90466905fc30037317074a6424d8bf078e959a1ed2d8e5c000 </span><br><span class="line">e = 0x10001</span><br><span class="line">pbits = 1024</span><br><span class="line">for i in range(0,4096):</span><br><span class="line">    p4=0x3e67e7cacd2584224fb2026b40afbcc4281bd59f72f7801239d95c61c48ded7649924f794592fce806e032f16c2f4a90466905fc30037317074a6424d8bf078e959a1ed2d8e5c000</span><br><span class="line">    p4=p4+int(hex(i),16)</span><br><span class="line">    kbits = pbits - p4.nbits()</span><br><span class="line">    p4 = p4 &lt;&lt; kbits</span><br><span class="line">    PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">    f = x + p4</span><br><span class="line">    roots = f.small_roots(X=2^kbits, beta=0.4)</span><br><span class="line">    if roots:</span><br><span class="line">        p = p4+int(roots[0])</span><br><span class="line">        print( &quot;n: &quot;, n)</span><br><span class="line">        print(&quot;p: &quot;, p)</span><br><span class="line">        print (&quot;q: &quot;, n//p)</span><br><span class="line">        break</span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>RSA</tag>
+      </tags>
   </entry>
 </search>
