@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/title.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="六月作业 *RSA File 123with open(&quot;pub.key&quot;,&quot;r&quot;,encoding&#x3D;&quot;utf-8&quot;) as file:    text&#x3D;file.read()key&#x3D;RSA.import_key(text) 在线网站">
+<meta property="og:type" content="article">
+<meta property="og:title" content="六月作业">
+<meta property="og:url" content="http://example.com/2022/06/30/%E5%85%AD%E6%9C%88%E4%BD%9C%E4%B8%9A/index.html">
+<meta property="og:site_name" content="sha &amp; CTF记录">
+<meta property="og:description" content="六月作业 *RSA File 123with open(&quot;pub.key&quot;,&quot;r&quot;,encoding&#x3D;&quot;utf-8&quot;) as file:    text&#x3D;file.read()key&#x3D;RSA.import_key(text) 在线网站">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-30T02:47:49.000Z">
+<meta property="article:modified_time" content="2022-06-30T04:02:50.917Z">
+<meta property="article:author" content="sha&amp;blog">
+<meta property="article:tag" content="Crypto">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/06/30/%E5%85%AD%E6%9C%88%E4%BD%9C%E4%B8%9A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>六月作业 | sha & CTF记录</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">sha & CTF记录</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个密码学菜狗</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/30/%E5%85%AD%E6%9C%88%E4%BD%9C%E4%B8%9A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/111.jpg">
+      <meta itemprop="name" content="sha&blog">
+      <meta itemprop="description" content="请务必休息一天">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sha & CTF记录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          六月作业
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-30 10:47:49 / 修改时间：12:02:50" itemprop="dateCreated datePublished" datetime="2022-06-30T10:47:49+08:00">2022-06-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RSA/" itemprop="url" rel="index"><span itemprop="name">RSA</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>14 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="六月作业">六月作业</h1>
+<h2 id="rsa-file">*RSA File</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;pub.key&quot;</span>,<span class="string">&quot;r&quot;</span>,encoding=<span class="string">&quot;utf-8&quot;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    text=file.read()</span><br><span class="line">key=RSA.import_key(text)</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="http://www.hiencode.com/pub_asys.html">在线网站</a></p>
+<span id="more"></span>
+<h2 id="只有0到4">只有0到4？</h2>
+<p>广播攻击</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sympy.ntheory.modular <span class="keyword">import</span> crt</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> iroot</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">e = <span class="number">3</span></span><br><span class="line">n1 = <span class="number">331310324212000030020214312244232222400142410423413104441140203003243002104333214202031202212403400220031202142322434104143104244241214204444443323000244130122022422310201104411044030113302323014101331214303223312402430402404413033243132101010422240133122211400434023222214231402403403200012221023341333340042343122302113410210110221233241303024431330001303404020104442443120130000334110042432010203401440404010003442001223042211442001413004</span></span><br><span class="line">c1 = <span class="number">310020004234033304244200421414413320341301002123030311202340222410301423440312412440240244110200112141140201224032402232131204213012303204422003300004011434102141321223311243242010014140422411342304322201241112402132203101131221223004022003120002110230023341143201404311340311134230140231412201333333142402423134333211302102413111111424430032440123340034044314223400401224111323000242234420441240411021023100222003123214343030122032301042243</span></span><br><span class="line"></span><br><span class="line">n2 = <span class="number">302240000040421410144422133334143140011011044322223144412002220243001141141114123223331331304421113021231204322233120121444434210041232214144413244434424302311222143224402302432102242132244032010020113224011121043232143221203424243134044314022212024343100042342002432331144300214212414033414120004344211330224020301223033334324244031204240122301242232011303211220044222411134403012132420311110302442344021122101224411230002203344140143044114</span></span><br><span class="line">c2 = <span class="number">112200203404013430330214124004404423210041321043000303233141423344144222343401042200334033203124030011440014210112103234440312134032123400444344144233020130110134042102220302002413321102022414130443041144240310121020100310104334204234412411424420321211112232031121330310333414423433343322024400121200333330432223421433344122023012440013041401423202210124024431040013414313121123433424113113414422043330422002314144111134142044333404112240344</span></span><br><span class="line"></span><br><span class="line">n3 = <span class="number">332200324410041111434222123043121331442103233332422341041340412034230003314420311333101344231212130200312041044324431141033004333110021013020140020011222012300020041342040004002220210223122111314112124333211132230332124022423141214031303144444134403024420111423244424030030003340213032121303213343020401304243330001314023030121034113334404440421242240113103203013341231330004332040302440011324004130324034323430143102401440130242321424020323</span></span><br><span class="line">c3 = <span class="number">10013444120141130322433204124002242224332334011124210012440241402342100410331131441303242011002101323040403311120421304422222200324402244243322422444414043342130111111330022213203030324422101133032212042042243101434342203204121042113212104212423330331134311311114143200011240002111312122234340003403312040401043021433112031334324322123304112340014030132021432101130211241134422413442312013042141212003102211300321404043012124332013240431242</span></span><br><span class="line"></span><br><span class="line">n1 = <span class="built_in">int</span>(<span class="built_in">str</span>(n1), <span class="number">5</span>)</span><br><span class="line">c1 = <span class="built_in">int</span>(<span class="built_in">str</span>(c1), <span class="number">5</span>)</span><br><span class="line">n2 = <span class="built_in">int</span>(<span class="built_in">str</span>(n2), <span class="number">5</span>)</span><br><span class="line">c2 = <span class="built_in">int</span>(<span class="built_in">str</span>(c2), <span class="number">5</span>)</span><br><span class="line">n3 = <span class="built_in">int</span>(<span class="built_in">str</span>(n3), <span class="number">5</span>)</span><br><span class="line">c3 = <span class="built_in">int</span>(<span class="built_in">str</span>(c3), <span class="number">5</span>)</span><br><span class="line">N = [n1, n2, n3]</span><br><span class="line">C = [c1, c2, c3]</span><br><span class="line"></span><br><span class="line">resultant, mod = crt(N, C)</span><br><span class="line">value = iroot(resultant, e)[<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(value))</span><br></pre></td></tr></table></figure>
+<p>另一种方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(n)):</span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(n)):</span><br><span class="line">        <span class="keyword">if</span> i != j:</span><br><span class="line">            <span class="keyword">if</span> gmpy2.gcd(n[i], n[j]) != <span class="number">1</span>:</span><br><span class="line">                <span class="built_in">print</span>(i, j)  <span class="comment"># 输出对应的n的序号</span></span><br><span class="line">                p = gmpy2.gcd(n[i], n[j])</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;p = &quot;</span>, p)</span><br><span class="line">                q = n[i] // p</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;q = &quot;</span>, q)</span><br><span class="line">                d = gmpy2.invert(e, (p - <span class="number">1</span>) * (q - <span class="number">1</span>))</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;d = &quot;</span>, d)</span><br><span class="line">                m = <span class="built_in">pow</span>(c[i], d, n[i])</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">&quot;m = &quot;</span>, m)</span><br></pre></td></tr></table></figure>
+<p>两个n有公因子，直接求解</p>
+<h2 id="rsa">RSA？</h2>
+<p>直接爆破m</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"></span><br><span class="line">c1= <span class="number">47916081717706538925639104682570684180170502544820197539239827441426724468768104306254078605230687136184497929</span></span><br><span class="line">n1= <span class="number">164133678169710886720989064489094710242148933867688762980230890673424334054283751851389412792855634009922402873730095480540590589967587744481839586009206921690415208556737311431588106941893527836076971942678255228990259381439694065742253470463684082142779114879828632048097049587164541575068678559785497341341</span></span><br><span class="line">c2= <span class="number">63878844405215916614306503133484342687866237414982537489487243642156715327887644418701791728466044672606833177790745723348407141495434918350324367721472060206442057535810542180796122799773614557047720846326110736372382283280049448530028736552356917154044523343646598823659486063811304671208433254991406080968</span></span><br><span class="line">n2= <span class="number">81943314005002234143294576769951701354140501422348161833411886396153974002840590020014331444356263770668675416273077939014396178809052011274358602695903955726427501943378842406211922876951617483948075311923120200295968581991729752554553727773176109055672586268192629406914315361730879469185143748796847985621</span></span><br><span class="line">e2=<span class="number">3</span></span><br><span class="line">k=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(gmpy2.iroot(c2+k*n2,e2)[<span class="number">1</span>]==<span class="literal">False</span>):</span><br><span class="line">    k+=<span class="number">1</span></span><br><span class="line"><span class="comment">#print(k,c2+k*n2,gmpy2.iroot(c2+k*n2,e2)[0])</span></span><br><span class="line"><span class="comment">#m2=3997474330692954004892367968364354963663898428651951374234371210083046726737590992626245650194376316882</span></span><br><span class="line">e1=<span class="number">2</span></span><br><span class="line">k=<span class="number">0</span></span><br><span class="line"><span class="keyword">while</span>(gmpy2.iroot(c1+k*n1,e1)[<span class="number">1</span>]==<span class="literal">False</span>):</span><br><span class="line">    k+=<span class="number">1</span></span><br><span class="line"><span class="comment">#print(k,c1+k*n1,gmpy2.iroot(c1+k*n1,e1)[0])</span></span><br><span class="line">m=<span class="number">6922144300555033858896226859793246979270479673047458173</span></span><br><span class="line">flag=long_to_bytes(m)</span><br><span class="line"><span class="built_in">print</span>(flag)</span><br></pre></td></tr></table></figure>
+<h2 id="break_rsa">Break_RSA</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> sage.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line">n = <span class="number">25348605574630284342864323710011622959543974652863854537355760576386763162531478272446867731299572532294812374775121121761898206639041068156270466457595336452690367719842145233764550634280981441631262047763246059814963741143303914063537003244814908763379320576260885158458898112416692583017869283284022878603506583499699525249773663841642694427307104140944360804367072787670581252816486834658346431010523135392357008103555699542414687172408709153334263858639251735462278292703380745537045458408951791720967957274781161667526873251066303708008043058246747534357368350540174588670636827470901518225473676343782182718627</span></span><br><span class="line">p4 =<span class="number">0x3e67e7cacd2584224fb2026b40afbcc4281bd59f72f7801239d95c61c48ded7649924f794592fce806e032f16c2f4a90466905fc30037317074a6424d8bf078e959a1ed2d8e5c000</span> </span><br><span class="line">e = <span class="number">0x10001</span></span><br><span class="line">pbits = <span class="number">1024</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">0</span>,<span class="number">4096</span>):</span><br><span class="line">    p4=<span class="number">0x3e67e7cacd2584224fb2026b40afbcc4281bd59f72f7801239d95c61c48ded7649924f794592fce806e032f16c2f4a90466905fc30037317074a6424d8bf078e959a1ed2d8e5c000</span></span><br><span class="line">    p4=p4+<span class="built_in">int</span>(<span class="built_in">hex</span>(i),<span class="number">16</span>)</span><br><span class="line">    kbits = pbits - p4.nbits()</span><br><span class="line">    p4 = p4 &lt;&lt; kbits</span><br><span class="line">    PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line">    f = x + p4</span><br><span class="line">    f = f.monic()</span><br><span class="line">    roots = f.small_roots(X=<span class="number">2</span>^kbits, beta=<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">if</span> roots:</span><br><span class="line">        p = p4+<span class="built_in">int</span>(roots[<span class="number">0</span>])</span><br><span class="line">        <span class="built_in">print</span>( <span class="string">&quot;n: &quot;</span>, n)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">&quot;p: &quot;</span>, p)</span><br><span class="line">        <span class="built_in">print</span> (<span class="string">&quot;q: &quot;</span>, n//p)</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">phi = (p - <span class="number">1</span>) * (q - <span class="number">1</span>)</span><br><span class="line">d = gmpy2.invert(e, phi)   </span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(<span class="built_in">pow</span>(c, d, n)))</span><br></pre></td></tr></table></figure>
+<p><span class="math display">\[
+模数为N,N具有一个因子b&gt;=N^β, 0&lt;β&lt;=1.
+\]</span></p>
+<p>Coppersmith method主要通过LLL方法找到与该多项式具有相同根x0，定义域为整数域的多项式g，即可求解。</p>
+<h3 id="lll算法">LLL算法</h3>
+<p>LLL算法的目标是找到一个向量空间的近似最短正交基。LLL的约化过程，是先约化前k个基，然后拓展到k+1个基，最终完成全部n个基的约化过程。因为近似最短，所以该算法可求解部分SVP问题，进而求解coppersmith问题。</p>
+<h2 id="babyrsa">babyrsa</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> gmpy2</span><br><span class="line"></span><br><span class="line">p_high = <span class="number">1514296530850131082973956029074258536069144071110652176122006763622293335057110441067910479</span></span><br><span class="line">q_low = <span class="number">40812438243894343296354573724131194431453023461572200856406939246297219541329623</span></span><br><span class="line">n = <span class="number">21815431662065695412834116602474344081782093119269423403335882867255834302242945742413692949886248581138784199165404321893594820375775454774521554409598568793217997859258282700084148322905405227238617443766062207618899209593375881728671746850745598576485323702483634599597393910908142659231071532803602701147251570567032402848145462183405098097523810358199597631612616833723150146418889589492395974359466777040500971885443881359700735149623177757865032984744576285054725506299888069904106805731600019058631951255795316571242969336763938805465676269140733371287244624066632153110685509892188900004952700111937292221969</span></span><br><span class="line">enc = <span class="number">19073695285772829730103928222962723784199491145730661021332365516942301513989932980896145664842527253998170902799883262567366661277268801440634319694884564820420852947935710798269700777126717746701065483129644585829522353341718916661536894041337878440111845645200627940640539279744348235772441988748977191513786620459922039153862250137904894008551515928486867493608757307981955335488977402307933930592035163126858060189156114410872337004784951228340994743202032248681976932591575016798640429231399974090325134545852080425047146251781339862753527319093938929691759486362536986249207187765947926921267520150073408188188</span></span><br><span class="line">e = <span class="number">65537</span></span><br><span class="line">mod = <span class="built_in">pow</span>(<span class="number">2</span>,<span class="number">265</span>)</span><br><span class="line">p0 = n * inverse_mod(q_low,mod) % mod</span><br><span class="line">PR.&lt;x&gt; = PolynomialRing(Zmod(n))</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>**<span class="number">5</span>):</span><br><span class="line">    f = p_high * (<span class="number">2</span>^<span class="number">724</span>) + p0 + (x * <span class="number">32</span> + i) * mod</span><br><span class="line">    f = f.monic()</span><br><span class="line">    out_p = f.small_roots(<span class="number">2</span>^<span class="number">454</span>,<span class="number">0.4</span>)</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">len</span>(out_p) != <span class="number">0</span>:</span><br><span class="line">        <span class="built_in">print</span>(out_p[<span class="number">0</span>])</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">p = out_p[<span class="number">0</span>] * <span class="number">32</span> + i * mod + p_high * (<span class="number">2</span>^<span class="number">724</span>) + p0</span><br><span class="line"><span class="comment"># print(p)</span></span><br><span class="line">p = <span class="number">133637329398256221348922087205912367118213472434713498908220867690672019569057789598459580146410501473689139466275052698529257254973211963162087316149628000798221014338373126500646873612341158676084318494058522014519669302359038980726479317742766438142835169562422371156257894374341629012755597863752154328407</span></span><br><span class="line"><span class="keyword">assert</span> n % p == <span class="number">0</span></span><br><span class="line">q = n // p</span><br><span class="line">fai_n = (p-<span class="number">1</span>) * (q-<span class="number">1</span>)</span><br><span class="line">d = inverse_mod(e,fai_n)</span><br><span class="line">m = <span class="built_in">pow</span>(enc,d,n)</span><br><span class="line"><span class="built_in">print</span>(<span class="built_in">bytes</span>.decode(long_to_bytes(m)))</span><br></pre></td></tr></table></figure>
+<p>q_low可以通过n逆到p_low，通过small_roots求解</p>
+<h2 id="wieners-attack">Wiener’s Attack</h2>
+<p>连分数定理 <span class="math display">\[
+当|x−a/b|&lt;1/(2b^2)时，a/b是x的一个连分数近似。
+\]</span> 用t和_n能求出u，但是在求u的过程中可求p和q。</p>
+<p>求出e1后，e1和e2可以用扩展维纳求解m。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> invert</span><br><span class="line"></span><br><span class="line">c = <span class="number">6472367338832635906896423990323542537663849304314171581554107495210830026660211696089062916158894195561723047864604633460433867838687338370676287160274165915800235253640690510046066541445140501917731026596427080558567366267665887665459901724487706983166070740324307268574128474775026837827907818762764766069631267853742422247229582756256253175941899099898884656334598790711379305490419932664114615010382094572854799421891622789614614720442708271653376485660139560819668239118588069312179293488684403404385715780406937817124588773689921642802703005341324008483201528345805611493251791950304129082313093168732415486813</span></span><br><span class="line">e2 = <span class="number">27188825731727584656624712988703151030126350536157477591935558508817722580343689565924329442151239649607993377452763119541243174650065563589438911911135278704499670302489754540301886312489410648471922645773506837251600244109619850141762795901696503387880058658061490595034281884089265487336373011424883404499124002441860870291233875045675212355287622948427109362925199018383535259913549859747158348931847041907910313465531703810313472674435425886505383646969400166213185676876969805238803587967334447878968225219769481841748776108219650785975942208190380614555719233460250841332020054797811415069533137170950762289</span></span><br><span class="line">e1 = <span class="number">114552459553730357961013268333698879659007919035942930313432809776799669181481660306531243618160127922304264986001501784564575128319884991774542682853466808329973362019677284072646678280051091964555611220961719302320547405880386113519147076299481594997799884384012548506240748042365643212774215730304047871679706035596550898944580314923260982768858133395187777029914150064371998328788068888440803565964567662563652062845388379897799506439389461619422933318625765603423604615137217375612091221578339493263160670355032898186792479034771118678394464854413824347305505135625135428816394053078365603937337271798774138959</span></span><br><span class="line">N  = <span class="number">14922959775784066499316528935316325825140011208871830627653191549546959775167708525042423039865322548420928571524120743831693550123563493981797950912895893476200447083386549353336086899064921878582074346791320104106139965010480614879592357793053342577850761108944086318475849882440272688246818022209356852924215237481460229377544297224983887026669222885987323082324044645883070916243439521809702674295469253723616677245762242494478587807402688474176102093482019417118703747411862420536240611089529331148684440513934609412884941091651594861530606086982174862461739604705354416587503836130151492937714365614194583664241</span></span><br><span class="line">a  = <span class="number">0.356</span><span class="comment">#731./2049</span></span><br><span class="line">M1=N**<span class="number">0.5</span></span><br><span class="line">M2= N **(a+<span class="number">1</span>)</span><br><span class="line">D = diagonal_matrix(ZZ,[N,M1,M2,<span class="number">1</span>])</span><br><span class="line">M=matrix(ZZ,[[<span class="number">1</span>,-N,<span class="number">0</span>,N**<span class="number">2</span>],[<span class="number">0</span>,e1,-e1,-e1*N],[<span class="number">0</span>,<span class="number">0</span>,e2,-e2*N],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,e1*e2]])*D</span><br><span class="line">L=M.LLL()</span><br><span class="line">t=vector(ZZ,L[<span class="number">0</span>])</span><br><span class="line">x=M.solve_left(t)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line">phi = <span class="built_in">int</span>(x[<span class="number">1</span>]/x[<span class="number">0</span>]*e1)</span><br><span class="line">d = invert(<span class="number">0x10001</span>,phi)</span><br><span class="line">m=<span class="built_in">pow</span>(c,d,N)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(<span class="number">9082754779802416065229245885387712939943943582794993779715278978532329981453479995551082109</span>))</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">g = gcd(p-1, q-1)</span></span><br><span class="line"><span class="string">矩阵A等于[k1k2, d1gk2, d2gk1, d1d2g^2] 即为x</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+<h2 id="xor_1">xor_1</h2>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_pq</span>(<span class="params">n, x</span>):</span><br><span class="line">    a = [<span class="number">0</span>]</span><br><span class="line">    b = [<span class="number">0</span>]</span><br><span class="line">    maskx = <span class="number">1</span></span><br><span class="line">    maskn = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1024</span>):</span><br><span class="line">        xbit = (x &amp; maskx) &gt;&gt; i</span><br><span class="line">        nbit = n % maskn</span><br><span class="line">        t_a = []</span><br><span class="line">        t_b = []</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(a)):</span><br><span class="line">            <span class="keyword">for</span> aa <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> bb <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    <span class="keyword">if</span> aa ^ bb == xbit:</span><br><span class="line">                        tmp2 = n % maskn</span><br><span class="line">                        tmp1 = (aa * maskn // <span class="number">2</span> + a[j]) * (bb * maskn // <span class="number">2</span> + b[j]) % maskn</span><br><span class="line">                        <span class="keyword">if</span> tmp1 == tmp2:</span><br><span class="line">                            t_a.append(aa * maskn // <span class="number">2</span> + a[j])</span><br><span class="line">                            t_b.append(bb * maskn // <span class="number">2</span> + b[j])</span><br><span class="line">        maskx *= <span class="number">2</span></span><br><span class="line">        maskn *= <span class="number">2</span></span><br><span class="line">        a = t_a</span><br><span class="line">        b = t_b</span><br><span class="line">    <span class="keyword">for</span> a1, b1 <span class="keyword">in</span> <span class="built_in">zip</span>(a, b):</span><br><span class="line">        <span class="keyword">if</span> a1 * b1 == n1:</span><br><span class="line">            <span class="keyword">return</span> a1, b1</span><br></pre></td></tr></table></figure>
+<p>每一位异或都有四种情况（00,01,10,11）通过n的低位可以约束这四种情况，从低位到高位依次遍历可解。</p>
+<h2 id="rsaos">RSAOS</h2>
+<p>普通指令先CRC签名再RSA签名，特权指令先foldhash签名再RSA签名。当enable打开时，普通指令也需要foldhash签名。</p>
+<p>foldhash实现</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sha1_s = sha1(s).digest()</span><br><span class="line"><span class="keyword">return</span> <span class="built_in">bytes</span>(x ^ y <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(sha1_s[:<span class="number">10</span>], sha1_s[<span class="number">10</span>:]))</span><br></pre></td></tr></table></figure>
+<p>由于程序的判断条件，指令后可以跟其他字符，签名时是签一整个指令。</p>
+<p>然后便可以找到多个CRC的签名使之乘积等于get-flag的foldhash签名，又由于RSA的乘法同态，最后签名得出的结果是一样的。</p>
+<p>于是就可以<a href="%5Bresilar/crchack:%20Reversing%20CRC%20for%20fun%20and%20profit%20(github.com)%5D(https://github.com/resilar/crchack)">CRC求逆</a>，每个foldhash的因子不应该超过CRC32要求的32位。可选择get-flag 999。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Crypto/" rel="tag"># Crypto</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/20/%E6%A0%BC%E5%AF%86%E7%A0%81/" rel="prev" title="格密码">
+      <i class="fa fa-chevron-left"></i> 格密码
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E6%9C%88%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.</span> <span class="nav-text">六月作业</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa-file"><span class="nav-number">1.1.</span> <span class="nav-text">*RSA File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AA%E6%9C%890%E5%88%B04"><span class="nav-number">1.2.</span> <span class="nav-text">只有0到4？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa"><span class="nav-number">1.3.</span> <span class="nav-text">RSA？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#break_rsa"><span class="nav-number">1.4.</span> <span class="nav-text">Break_RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lll%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">LLL算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babyrsa"><span class="nav-number">1.5.</span> <span class="nav-text">babyrsa</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wieners-attack"><span class="nav-number">1.6.</span> <span class="nav-text">Wiener’s Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xor_1"><span class="nav-number">1.7.</span> <span class="nav-text">xor_1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsaos"><span class="nav-number">1.8.</span> <span class="nav-text">RSAOS</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sha&blog"
+      src="/images/111.jpg">
+  <p class="site-author-name" itemprop="name">sha&blog</p>
+  <div class="site-description" itemprop="description">请务必休息一天</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sha&blog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">49k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">55 分钟</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
