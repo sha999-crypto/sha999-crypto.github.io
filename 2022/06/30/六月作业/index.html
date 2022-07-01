@@ -28,7 +28,7 @@
 <meta property="og:description" content="六月作业 *RSA File 123with open(&quot;pub.key&quot;,&quot;r&quot;,encoding&#x3D;&quot;utf-8&quot;) as file:    text&#x3D;file.read()key&#x3D;RSA.import_key(text) 在线网站">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-30T02:47:49.000Z">
-<meta property="article:modified_time" content="2022-06-30T04:02:50.917Z">
+<meta property="article:modified_time" content="2022-07-01T02:56:05.245Z">
 <meta property="article:author" content="sha&amp;blog">
 <meta property="article:tag" content="Crypto">
 <meta name="twitter:card" content="summary">
@@ -212,10 +212,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-30 10:47:49 / 修改时间：12:02:50" itemprop="dateCreated datePublished" datetime="2022-06-30T10:47:49+08:00">2022-06-30</time>
+              <time title="创建时间：2022-06-30 10:47:49" itemprop="dateCreated datePublished" datetime="2022-06-30T10:47:49+08:00">2022-06-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-01 10:56:05" itemprop="dateModified" datetime="2022-07-01T10:56:05+08:00">2022-07-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -239,14 +245,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>13k</span>
+              <span>14k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>14 分钟</span>
+              <span>15 分钟</span>
             </span>
 
         </div>
@@ -288,6 +294,43 @@
 当|x−a/b|&lt;1/(2b^2)时，a/b是x的一个连分数近似。
 \]</span> 用t和_n能求出u，但是在求u的过程中可求p和q。</p>
 <p>求出e1后，e1和e2可以用扩展维纳求解m。</p>
+<h3 id="扩展维纳">扩展维纳</h3>
+<p><span class="math display">\[
+g = gcd(p-1, q-1) \\
+ed = 1 + k(p-1)(q-1)\\
+edg = g + k(p-1)(q-1)\tag{1}
+\]</span></p>
+<p><span class="math display">\[
+e_1d_1 = 1+k_1\phi(N)\\
+e_2d_2 = 1+k_2\phi(N)\\
+e_1d_1k_2-e_2d_2k_1=k_2-k_1\tag{2}
+\]</span></p>
+<p>从而可得 <span class="math display">\[
+A*L=B\\
+A=(k_1k_2,d_1gk_2,d_2gk_1, d_1d_2g^2)\\
+L=\begin{bmatrix}
+1&amp;-N&amp;0&amp;N^2\\
+0&amp;e_1&amp;-e_1&amp;-e_1N\\
+0&amp;0&amp;-e_2&amp;-e_2N\\
+0&amp;0&amp;0&amp;e_1e_2
+\end{bmatrix}\\
+B=(k_1k_2,k_2(g+k_1s),g(k_1−k_2),(g+k_1s)(g+k_2s))
+\]</span> L为格基，若B为最短向量可用LLL求解。 <span class="math display">\[
+只有满足\lambda_1(L)\le\sqrt{N}det(L)^\frac{1}{n}才是最短向量。
+\]</span> 现成的格子： <span class="math display">\[
+M_1=N^{0.5}, M_2=N^{1+\alpha},\\
+L第一列乘N，第二列乘M_1, 第三列乘M_2,得\\
+L_2=\begin{bmatrix}
+N&amp;-M_1N&amp;0&amp;N^2\\
+0&amp;M_1e_1&amp;-M_2e_1&amp;-e_1N\\
+0&amp;0&amp;-M_2e_2&amp;-e_2N\\
+0&amp;0&amp;0&amp;e_1e_2
+\end{bmatrix}\\
+B=(k_1k_2N,k_2(g+k_1s)M_1,g(k_1-k_2)M_2,(g+k_1s)(g+k_2s))\\
+所以||B_2||\le2N^{1+2\alpha}\le\sqrt{N}det(L)^\frac{1}{n}=2N^{\frac{1}{4}(\alpha+\frac{13}{2})}\\
+求得\alpha\le\frac{5}{14}.\\
+然后可以将\alpha带入M_2用LLL求最短向量B_2，右乘L_2的逆求A，由A的前两项求解。
+\]</span></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> gmpy2 <span class="keyword">import</span> invert</span><br><span class="line"></span><br><span class="line">c = <span class="number">6472367338832635906896423990323542537663849304314171581554107495210830026660211696089062916158894195561723047864604633460433867838687338370676287160274165915800235253640690510046066541445140501917731026596427080558567366267665887665459901724487706983166070740324307268574128474775026837827907818762764766069631267853742422247229582756256253175941899099898884656334598790711379305490419932664114615010382094572854799421891622789614614720442708271653376485660139560819668239118588069312179293488684403404385715780406937817124588773689921642802703005341324008483201528345805611493251791950304129082313093168732415486813</span></span><br><span class="line">e2 = <span class="number">27188825731727584656624712988703151030126350536157477591935558508817722580343689565924329442151239649607993377452763119541243174650065563589438911911135278704499670302489754540301886312489410648471922645773506837251600244109619850141762795901696503387880058658061490595034281884089265487336373011424883404499124002441860870291233875045675212355287622948427109362925199018383535259913549859747158348931847041907910313465531703810313472674435425886505383646969400166213185676876969805238803587967334447878968225219769481841748776108219650785975942208190380614555719233460250841332020054797811415069533137170950762289</span></span><br><span class="line">e1 = <span class="number">114552459553730357961013268333698879659007919035942930313432809776799669181481660306531243618160127922304264986001501784564575128319884991774542682853466808329973362019677284072646678280051091964555611220961719302320547405880386113519147076299481594997799884384012548506240748042365643212774215730304047871679706035596550898944580314923260982768858133395187777029914150064371998328788068888440803565964567662563652062845388379897799506439389461619422933318625765603423604615137217375612091221578339493263160670355032898186792479034771118678394464854413824347305505135625135428816394053078365603937337271798774138959</span></span><br><span class="line">N  = <span class="number">14922959775784066499316528935316325825140011208871830627653191549546959775167708525042423039865322548420928571524120743831693550123563493981797950912895893476200447083386549353336086899064921878582074346791320104106139965010480614879592357793053342577850761108944086318475849882440272688246818022209356852924215237481460229377544297224983887026669222885987323082324044645883070916243439521809702674295469253723616677245762242494478587807402688474176102093482019417118703747411862420536240611089529331148684440513934609412884941091651594861530606086982174862461739604705354416587503836130151492937714365614194583664241</span></span><br><span class="line">a  = <span class="number">0.356</span><span class="comment">#731./2049</span></span><br><span class="line">M1=N**<span class="number">0.5</span></span><br><span class="line">M2= N **(a+<span class="number">1</span>)</span><br><span class="line">D = diagonal_matrix(ZZ,[N,M1,M2,<span class="number">1</span>])</span><br><span class="line">M=matrix(ZZ,[[<span class="number">1</span>,-N,<span class="number">0</span>,N**<span class="number">2</span>],[<span class="number">0</span>,e1,-e1,-e1*N],[<span class="number">0</span>,<span class="number">0</span>,e2,-e2*N],[<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,e1*e2]])*D</span><br><span class="line">L=M.LLL()</span><br><span class="line">t=vector(ZZ,L[<span class="number">0</span>])</span><br><span class="line">x=M.solve_left(t)</span><br><span class="line"><span class="built_in">print</span>(x)</span><br><span class="line">phi = <span class="built_in">int</span>(x[<span class="number">1</span>]/x[<span class="number">0</span>]*e1)</span><br><span class="line">d = invert(<span class="number">0x10001</span>,phi)</span><br><span class="line">m=<span class="built_in">pow</span>(c,d,N)</span><br><span class="line"><span class="built_in">print</span>(m)</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(<span class="number">9082754779802416065229245885387712939943943582794993779715278978532329981453479995551082109</span>))</span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">g = gcd(p-1, q-1)</span></span><br><span class="line"><span class="string">矩阵A等于[k1k2, d1gk2, d2gk1, d1d2g^2] 即为x</span></span><br><span class="line"><span class="string">&#x27;&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
 <h2 id="xor_1">xor_1</h2>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">get_pq</span>(<span class="params">n, x</span>):</span><br><span class="line">    a = [<span class="number">0</span>]</span><br><span class="line">    b = [<span class="number">0</span>]</span><br><span class="line">    maskx = <span class="number">1</span></span><br><span class="line">    maskn = <span class="number">2</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1024</span>):</span><br><span class="line">        xbit = (x &amp; maskx) &gt;&gt; i</span><br><span class="line">        nbit = n % maskn</span><br><span class="line">        t_a = []</span><br><span class="line">        t_b = []</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(a)):</span><br><span class="line">            <span class="keyword">for</span> aa <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                <span class="keyword">for</span> bb <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">2</span>):</span><br><span class="line">                    <span class="keyword">if</span> aa ^ bb == xbit:</span><br><span class="line">                        tmp2 = n % maskn</span><br><span class="line">                        tmp1 = (aa * maskn // <span class="number">2</span> + a[j]) * (bb * maskn // <span class="number">2</span> + b[j]) % maskn</span><br><span class="line">                        <span class="keyword">if</span> tmp1 == tmp2:</span><br><span class="line">                            t_a.append(aa * maskn // <span class="number">2</span> + a[j])</span><br><span class="line">                            t_b.append(bb * maskn // <span class="number">2</span> + b[j])</span><br><span class="line">        maskx *= <span class="number">2</span></span><br><span class="line">        maskn *= <span class="number">2</span></span><br><span class="line">        a = t_a</span><br><span class="line">        b = t_b</span><br><span class="line">    <span class="keyword">for</span> a1, b1 <span class="keyword">in</span> <span class="built_in">zip</span>(a, b):</span><br><span class="line">        <span class="keyword">if</span> a1 * b1 == n1:</span><br><span class="line">            <span class="keyword">return</span> a1, b1</span><br></pre></td></tr></table></figure>
@@ -379,7 +422,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E6%9C%88%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.</span> <span class="nav-text">六月作业</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa-file"><span class="nav-number">1.1.</span> <span class="nav-text">*RSA File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AA%E6%9C%890%E5%88%B04"><span class="nav-number">1.2.</span> <span class="nav-text">只有0到4？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa"><span class="nav-number">1.3.</span> <span class="nav-text">RSA？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#break_rsa"><span class="nav-number">1.4.</span> <span class="nav-text">Break_RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lll%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">LLL算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babyrsa"><span class="nav-number">1.5.</span> <span class="nav-text">babyrsa</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wieners-attack"><span class="nav-number">1.6.</span> <span class="nav-text">Wiener’s Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xor_1"><span class="nav-number">1.7.</span> <span class="nav-text">xor_1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsaos"><span class="nav-number">1.8.</span> <span class="nav-text">RSAOS</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%AD%E6%9C%88%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.</span> <span class="nav-text">六月作业</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa-file"><span class="nav-number">1.1.</span> <span class="nav-text">*RSA File</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%AA%E6%9C%890%E5%88%B04"><span class="nav-number">1.2.</span> <span class="nav-text">只有0到4？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsa"><span class="nav-number">1.3.</span> <span class="nav-text">RSA？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#break_rsa"><span class="nav-number">1.4.</span> <span class="nav-text">Break_RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#lll%E7%AE%97%E6%B3%95"><span class="nav-number">1.4.1.</span> <span class="nav-text">LLL算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#babyrsa"><span class="nav-number">1.5.</span> <span class="nav-text">babyrsa</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wieners-attack"><span class="nav-number">1.6.</span> <span class="nav-text">Wiener’s Attack</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E7%BB%B4%E7%BA%B3"><span class="nav-number">1.6.1.</span> <span class="nav-text">扩展维纳</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xor_1"><span class="nav-number">1.7.</span> <span class="nav-text">xor_1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rsaos"><span class="nav-number">1.8.</span> <span class="nav-text">RSAOS</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -444,12 +487,12 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-area"></i>
     </span>
-    <span title="站点总字数">49k</span>
+    <span title="站点总字数">50k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">55 分钟</span>
+    <span title="站点阅读时长">56 分钟</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
