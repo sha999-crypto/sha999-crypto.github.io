@@ -273,13 +273,13 @@
 <h2 id="格中的困难问题">格中的困难问题</h2>
 <h3 id="svp最短向量问题">SVP：最短向量问题</h3>
 <p>给定一个基为B的Lattice L(B)，找到一个这个基构成的格点Bx:x，使得这个点距离0坐标点的距离最近。</p>
-<p>SVP的宽松版本：<img src="https://www.zhihu.com/equation?tex=SVP_%5Cgamma" alt="[公式]" />，即找到一个基构成的格点Bx:x，使得这个店距离原点的距离小于最短距离的<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="[公式]" />倍即可。</p>
+<p>SVP的宽松版本：<img src="https://www.zhihu.com/equation?tex=SVP_%5Cgamma" alt="[公式]">，即找到一个基构成的格点Bx:x，使得这个店距离原点的距离小于最短距离的<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="[公式]">倍即可。</p>
 <h3 id="cvp最近向量问题">CVP：最近向量问题</h3>
 <p>给定连续空间中任意的一个点t，找到距离这个点最近的格点Bx。</p>
-<p>同理可得，我们也可以得到CVP的宽松版，即<img src="https://www.zhihu.com/equation?tex=CVP_%5Cgamma" alt="[公式]" />。</p>
+<p>同理可得，我们也可以得到CVP的宽松版，即<img src="https://www.zhihu.com/equation?tex=CVP_%5Cgamma" alt="[公式]">。</p>
 <h3 id="sivp最短独立向量问题">SIVP：最短独立向量问题</h3>
-<p>给定一个Lattice <img src="https://www.zhihu.com/equation?tex=%5Cmathcal%7BL%7D%28%5Cmathbf%7BB%7D%29" alt="[公式]" />，找到<img src="https://www.zhihu.com/equation?tex=n" alt="[公式]" />个线性独立的向量<img src="https://www.zhihu.com/equation?tex=%5Cmathbf%7BBx_1%2C+%5Cdots%2C+Bx_n%7D" alt="[公式]" />并且这些向量的长度都要小于等于最长的最短向量<img src="https://www.zhihu.com/equation?tex=%5Clambda_n" alt="[公式]" />。</p>
-<p>和SVP与CVP问题一样，我们也可以给出SIVP问题的宽松版定义，即<img src="https://www.zhihu.com/equation?tex=SIVP_%5Cgamma" alt="[公式]" />。</p>
+<p>给定一个Lattice <img src="https://www.zhihu.com/equation?tex=%5Cmathcal%7BL%7D%28%5Cmathbf%7BB%7D%29" alt="[公式]">，找到<img src="https://www.zhihu.com/equation?tex=n" alt="[公式]">个线性独立的向量<img src="https://www.zhihu.com/equation?tex=%5Cmathbf%7BBx_1%2C+%5Cdots%2C+Bx_n%7D" alt="[公式]">并且这些向量的长度都要小于等于最长的最短向量<img src="https://www.zhihu.com/equation?tex=%5Clambda_n" alt="[公式]">。</p>
+<p>和SVP与CVP问题一样，我们也可以给出SIVP问题的宽松版定义，即<img src="https://www.zhihu.com/equation?tex=SIVP_%5Cgamma" alt="[公式]">。</p>
 <h2 id="基于lattice的信息传输">基于lattice的信息传输</h2>
 <p>首先，我们把需要传输的消息映射到Lattice中的一个点上，即Bx，然后把L和Bx发送出去。因为噪音，Bx会在L上产生偏移，首先我们需要求解SVP问题，寻找到L上的最短向量，并让其与噪音相比较，观察能否恢复出明文。然后若想恢复出明文，需要解决CVP问题，找到被噪声影响的密文的最近格点，一般来说就是映射到格上的明文。</p>
 <h2 id="lll算法">LLL算法</h2>

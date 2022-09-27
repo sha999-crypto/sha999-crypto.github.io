@@ -211,7 +211,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-09-27 13:01:58 / 修改时间：17:28:40" itemprop="dateCreated datePublished" datetime="2022-09-27T13:01:58+08:00">2022-09-27</time>
+              <time title="创建时间：2022-09-27 13:01:58 / 修改时间：18:27:18" itemprop="dateCreated datePublished" datetime="2022-09-27T13:01:58+08:00">2022-09-27</time>
             </span>
 
           <br>
@@ -241,33 +241,15 @@
       
           <h2 id="安装anaconda">1.安装anaconda</h2>
 <p>首先去<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/">镜像站</a>下载anaconda的镜像</p>
-<p><img src="python环境配置/1.png" /></p>
-<p>安装anaconda</p>
-<p><img src="python环境配置/2.png" /></p>
-<p>第一个必选，第二个会在电脑装一个python3.7，如果没有python环境勾选</p>
-<h2 id="安装pycharm">2.安装pycharm</h2>
-<p>去<a target="_blank" rel="noopener" href="https://www.jetbrains.com/zh-cn/pycharm/download/#section=windows">官网</a>下载pycharm专业版，在网上有几率可以找到可用的激活码，或者可以去jetbrain的官网进行<a target="_blank" rel="noopener" href="https://www.jetbrains.com/shop/eform/students">学生认证</a>.</p>
-<p><img src="python环境配置/7.png" /></p>
-<p>1和3都是可选，1是在桌面创建快捷方式，3是在右键菜单创建打开方式</p>
-<p>打开后可以在<img src="python环境配置/8.png" /></p>
-<p>登录有学生优惠的账号，也可以在<img src="python环境配置/9.png" /></p>
-<p>输入网上找的可用的激活码。</p>
-<p>新建一个项目</p>
-<p><img src="python环境配置/10.png" /></p>
-<p><img src="python环境配置/11.png" /></p>
-<p><img src="python环境配置/12.png" /></p>
-<p>选择Anaconda下的python.exe文件</p>
-<p>可以运行即可</p>
-<p><img src="python环境配置/13.png" /></p>
-<p>然后用pip安装常用包</p>
-<p>在cmd中输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
-<p>升级pip版本，然后输入</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pycryptodome</span><br></pre></td></tr></table></figure>
-<p>和</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
-<p>安装密码需要的Crypto库和pwn需要的pwntools。</p>
-
+<p><img src="https://s2.loli.net/2022/09/27/47ldkv5GrE2PFDX.png"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/09/27/python%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -356,7 +338,7 @@
       
           <p>题目首先给出了源码</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_the_flag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// webadmin will remove your upload file every 20 min!!!! </span></span><br><span class="line">    <span class="variable">$userdir</span> = <span class="string">&quot;upload/tmp_&quot;</span>.<span class="title function_ invoke__">md5</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">file_exists</span>(<span class="variable">$userdir</span>))&#123;</span><br><span class="line">    <span class="title function_ invoke__">mkdir</span>(<span class="variable">$userdir</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>]))&#123;</span><br><span class="line">        <span class="variable">$tmp_name</span> = <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;tmp_name&quot;</span>];</span><br><span class="line">        <span class="variable">$name</span> = <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>];</span><br><span class="line">        <span class="variable">$extension</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$name</span>, <span class="title function_ invoke__">strrpos</span>(<span class="variable">$name</span>,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/ph/i&quot;</span>,<span class="variable">$extension</span>)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">mb_strpos</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$tmp_name</span>), <span class="string">&#x27;&lt;?&#x27;</span>)!==False) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">exif_imagetype</span>(<span class="variable">$tmp_name</span>)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        <span class="variable">$path</span>= <span class="variable">$userdir</span>.<span class="string">&quot;/&quot;</span>.<span class="variable">$name</span>;</span><br><span class="line">        @<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmp_name</span>, <span class="variable">$path</span>);</span><br><span class="line">        <span class="title function_ invoke__">print_r</span>(<span class="variable">$path</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$hhh</span> = @<span class="variable">$_GET</span>[<span class="string">&#x27;_&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$hhh</span>)&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$hhh</span>)&gt;<span class="number">18</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;One inch long, one inch strong!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( <span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/[\x00- 0-9A-Za-z\&#x27;&quot;\`~_&amp;.,|=[\x7F]+/i&#x27;</span>, <span class="variable">$hhh</span>) )</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Try something else!&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$character_type</span> = <span class="title function_ invoke__">count_chars</span>(<span class="variable">$hhh</span>, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$character_type</span>)&gt;<span class="number">12</span>) <span class="keyword">die</span>(<span class="string">&quot;Almost there!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$hhh</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>
+<p></p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/07/24/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A-SUCTF-2019-EasyWeb/#more" rel="contents">
