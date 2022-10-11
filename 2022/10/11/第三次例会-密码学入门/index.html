@@ -36,7 +36,7 @@
 <meta property="og:image" content="https://s2.loli.net/2022/10/11/mwD7iq9PhcO84Kz.png">
 <meta property="og:image" content="https://s2.loli.net/2022/10/11/HTgMhofD4AtijC1.png">
 <meta property="article:published_time" content="2022-10-11T05:55:10.000Z">
-<meta property="article:modified_time" content="2022-10-11T08:03:11.885Z">
+<meta property="article:modified_time" content="2022-10-11T15:17:44.225Z">
 <meta property="article:author" content="sha&amp;blog">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://s2.loli.net/2022/10/11/FUEakgDSHZbK713.png">
@@ -222,7 +222,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-10-11 13:55:10 / 修改时间：16:03:11" itemprop="dateCreated datePublished" datetime="2022-10-11T13:55:10+08:00">2022-10-11</time>
+              <time title="创建时间：2022-10-11 13:55:10 / 修改时间：23:17:44" itemprop="dateCreated datePublished" datetime="2022-10-11T13:55:10+08:00">2022-10-11</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -247,7 +247,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>1.8k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
@@ -333,6 +333,17 @@ RSA加密算法：随机选择两个大素数p和q，计算n=p*q以及phi=(p-1)*
 <p>A计算<span class="math inline">\(c_1-kc_2\)</span>即可解密。</p>
 <h3 id="格密码">格密码</h3>
 <p>涉及线代知识，目前阶段不作为重点。</p>
+<h2 id="作业">作业</h2>
+<ol type="1">
+<li><div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>   <span class="co"># flag * 2 ** 10000 mod 10**175 = x</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   <span class="co"># flag * 2 ** 10000 = y * 2 ** 175 + k * 10 ** 175</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>   <span class="co"># flag * 2 ** 9825 = y mod 5 ** 175</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>   <span class="bu">print</span>(gmpy2.invert(<span class="dv">2</span> <span class="op">**</span> <span class="dv">9825</span>, <span class="dv">5</span> <span class="op">**</span> <span class="dv">175</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>   y <span class="op">=</span> <span class="dv">1473327817893791860679080635376845598464916175771199125558742418628097409377550464912703622357336416382120404612476355317875179245511879304348013049276070451780858374753615872</span> <span class="op">//</span> (<span class="dv">2</span> <span class="op">**</span> <span class="dv">175</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>   <span class="bu">print</span>(y)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>   flag <span class="op">=</span> y <span class="op">*</span> gmpy2.invert(<span class="dv">2</span> <span class="op">**</span> <span class="dv">9825</span>, <span class="dv">5</span> <span class="op">**</span> <span class="dv">175</span>) <span class="op">%</span> (<span class="dv">5</span> <span class="op">**</span> <span class="dv">175</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>   <span class="bu">print</span>(long_to_bytes(flag))</span></code></pre></div></li>
+</ol>
 
     </div>
 
@@ -410,7 +421,7 @@ RSA加密算法：随机选择两个大素数p和q，计算n=p*q以及phi=(p-1)*
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">密码学入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">古典密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%AF%E6%92%92"><span class="nav-number">1.1.1.</span> <span class="nav-text">凯撒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92"><span class="nav-number">1.1.2.</span> <span class="nav-text">变异凯撒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%8A%A0%E5%AF%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">维吉尼亚加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90"><span class="nav-number">1.1.4.</span> <span class="nav-text">词频分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">现代密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%AE%89%E5%85%A8%E4%B8%8E%E5%AE%9E%E9%99%85%E5%AE%89%E5%85%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">理论安全与实际安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81des"><span class="nav-number">1.2.2.</span> <span class="nav-text">分组密码：DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">分组密码的工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%B5%E5%AD%90%E5%AF%86%E7%A0%81%E6%9C%AC%E6%A8%A1%E5%BC%8Fecb"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">电子密码本模式，ECB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E6%96%87%E5%88%86%E7%BB%84%E9%93%BE%E6%8E%A5%E6%A8%A1%E5%BC%8F-cbc"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">密文分组链接模式 CBC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%8F%8D%E9%A6%88%E6%A8%A1%E5%BC%8F-cfb"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">密码反馈模式 CFB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%8F%8D%E9%A6%88%E6%A8%A1%E5%BC%8F-ofb"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">输出反馈模式 OFB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81rsa"><span class="nav-number">1.2.4.</span> <span class="nav-text">公钥密码：RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">加解密算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81elgamal"><span class="nav-number">1.2.5.</span> <span class="nav-text">公钥密码：Elgamal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81ecc"><span class="nav-number">1.2.6.</span> <span class="nav-text">公钥密码：ECC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.7.</span> <span class="nav-text">格密码</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">密码学入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">古典密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%AF%E6%92%92"><span class="nav-number">1.1.1.</span> <span class="nav-text">凯撒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92"><span class="nav-number">1.1.2.</span> <span class="nav-text">变异凯撒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%8A%A0%E5%AF%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">维吉尼亚加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90"><span class="nav-number">1.1.4.</span> <span class="nav-text">词频分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">现代密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%AE%89%E5%85%A8%E4%B8%8E%E5%AE%9E%E9%99%85%E5%AE%89%E5%85%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">理论安全与实际安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81des"><span class="nav-number">1.2.2.</span> <span class="nav-text">分组密码：DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">分组密码的工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%B5%E5%AD%90%E5%AF%86%E7%A0%81%E6%9C%AC%E6%A8%A1%E5%BC%8Fecb"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">电子密码本模式，ECB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E6%96%87%E5%88%86%E7%BB%84%E9%93%BE%E6%8E%A5%E6%A8%A1%E5%BC%8F-cbc"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">密文分组链接模式 CBC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%8F%8D%E9%A6%88%E6%A8%A1%E5%BC%8F-cfb"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">密码反馈模式 CFB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%8F%8D%E9%A6%88%E6%A8%A1%E5%BC%8F-ofb"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">输出反馈模式 OFB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81rsa"><span class="nav-number">1.2.4.</span> <span class="nav-text">公钥密码：RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">加解密算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81elgamal"><span class="nav-number">1.2.5.</span> <span class="nav-text">公钥密码：Elgamal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81ecc"><span class="nav-number">1.2.6.</span> <span class="nav-text">公钥密码：ECC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.7.</span> <span class="nav-text">格密码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E4%B8%9A"><span class="nav-number">1.3.</span> <span class="nav-text">作业</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -480,7 +491,7 @@ RSA加密算法：随机选择两个大素数p和q，计算n=p*q以及phi=(p-1)*
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
-    <span title="站点阅读时长">1:05</span>
+    <span title="站点阅读时长">1:06</span>
 </div>
   <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
   </div>
