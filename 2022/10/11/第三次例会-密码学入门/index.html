@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/title.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="密码学入门 古典密码 凯撒 替换加密算法，26个字母在表上循环，向前或向后移n个字母。加密后移，解密前移。凯撒 变异凯撒 替换加密算法，循环顺序变为在ascii码表上循环。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三次例会-密码学入门">
+<meta property="og:url" content="http://example.com/2022/10/11/%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BE%8B%E4%BC%9A-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="sha &amp; CTF记录">
+<meta property="og:description" content="密码学入门 古典密码 凯撒 替换加密算法，26个字母在表上循环，向前或向后移n个字母。加密后移，解密前移。凯撒 变异凯撒 替换加密算法，循环顺序变为在ascii码表上循环。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/FUEakgDSHZbK713.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/tbLr3FDqVIGemK8.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/Pb3cYmQ8WivVN1S.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/rqBjypQkZUKcIlR.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/uUBEFt2SGnIyfzw.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/hZmBrlfAvgQ5Vqk.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/mwD7iq9PhcO84Kz.png">
+<meta property="og:image" content="https://s2.loli.net/2022/10/11/HTgMhofD4AtijC1.png">
+<meta property="article:published_time" content="2022-10-11T05:55:10.000Z">
+<meta property="article:modified_time" content="2022-10-11T08:01:01.507Z">
+<meta property="article:author" content="sha&amp;blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://s2.loli.net/2022/10/11/FUEakgDSHZbK713.png">
+
+<link rel="canonical" href="http://example.com/2022/10/11/%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BE%8B%E4%BC%9A-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>第三次例会-密码学入门 | sha & CTF记录</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">sha & CTF记录</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个密码学菜狗</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/11/%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BE%8B%E4%BC%9A-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/111.jpg">
+      <meta itemprop="name" content="sha&blog">
+      <meta itemprop="description" content="请务必休息一天">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sha & CTF记录">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          第三次例会-密码学入门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-11 13:55:10 / 修改时间：16:01:01" itemprop="dateCreated datePublished" datetime="2022-10-11T13:55:10+08:00">2022-10-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Crypto/" itemprop="url" rel="index"><span itemprop="name">Crypto</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span><br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="密码学入门">密码学入门</h1>
+<h2 id="古典密码">古典密码</h2>
+<h3 id="凯撒">凯撒</h3>
+<p>替换加密算法，26个字母在表上循环，向前或向后移n个字母。加密后移，解密前移。<a target="_blank" rel="noopener" href="https://ctf.bugku.com/tool/caesar">凯撒</a></p>
+<h3 id="变异凯撒">变异凯撒</h3>
+<p>替换加密算法，循环顺序变为在ascii码表上循环。</p>
+<span id="more"></span>
+<h3 id="维吉尼亚加密">维吉尼亚加密</h3>
+<p>有字母表作为对照<img src="https://s2.loli.net/2022/10/11/FUEakgDSHZbK713.png" alt="字母表"></p>
+<p>假设明文是ATTACK，密钥是CAT，加密将密钥重复至与明文相同长度，CATCAT，一一对应查表加密。密文则是CTMCCD。</p>
+<h3 id="词频分析">词频分析</h3>
+<p>一段文章里，特定的字母出现的频率基本固定不变。比如字母e出现的频率最高，为0.12702，就可以分析密文的字母频率还原明文。</p>
+<p>或者知道替换字母，比如MTHJ{CUBCGXGUGXWREXIPOYAOEYFIGXWRXCHTKHFCOHCFDUCGTXZOHIXOEOWMEHZO}，<a target="_blank" rel="noopener" href="https://quipqiup.com/">quipqiup</a></p>
+<h2 id="现代密码">现代密码</h2>
+<p>现代密码与古典密码的区别就是加密算法是否公开的区别。</p>
+<h3 id="理论安全与实际安全">理论安全与实际安全</h3>
+<p>理论安全，或无条件安全：攻击者无论截获多少密文，都无法得到足够的信息来唯一地决定明文。Shannon用理论证明：欲达理论安全，加密密钥长度必须大于等于明文长度，密钥只用一次，用完即丢，即一次一密。</p>
+<p>实际安全，或计算上安全：如果攻击者拥有无限资源，任何密码系统都是可以被破译的；但是，在有限的资源范围内，攻击者都不能通过系统的分析方法来破解系统，则称这个系统是计算上安全的或破译这个系统是计算上不可行。</p>
+<h3 id="分组密码des">分组密码：DES</h3>
+<p>明文加密16轮，初始的密钥经过16轮变换产生16个子密钥用来加密每一轮产生的密文。</p>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/tbLr3FDqVIGemK8.png" alt="image.png"><figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>密钥转换与左旋位数有转换表作为对照。</p>
+<p>加解密过程</p>
+<p><img src="https://s2.loli.net/2022/10/11/Pb3cYmQ8WivVN1S.png"></p>
+<p>DES已经被证明是不安全的，密钥可以通过穷举找出。现在一般采用3DES或者AES。</p>
+<h3 id="分组密码的工作模式">分组密码的工作模式</h3>
+<h4 id="电子密码本模式ecb">电子密码本模式，ECB</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/rqBjypQkZUKcIlR.png" alt="图片1.png"><figcaption aria-hidden="true">图片1.png</figcaption>
+</figure>
+<p>ECB模式特别适合数据较少的情况，如安全传输密钥。一段明文消息中若有几个相同的明文组，则密文也将出现几个相同的片段。对于很长的消息，ECB是不安全的，如果消息是非常结构化的，密码分析可能利用其结构特征来破解。</p>
+<h4 id="密文分组链接模式-cbc">密文分组链接模式 CBC</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/uUBEFt2SGnIyfzw.png" alt="图片2.png"><figcaption aria-hidden="true">图片2.png</figcaption>
+</figure>
+<p>加密输入是当前明文分组和前一密文分组的异或</p>
+<h4 id="密码反馈模式-cfb">密码反馈模式 CFB</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/hZmBrlfAvgQ5Vqk.png" alt="image.png"><figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>先加密初始向量再异或，异或结果作为下一轮密钥</p>
+<h4 id="输出反馈模式-ofb">输出反馈模式 OFB</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/mwD7iq9PhcO84Kz.png" alt="图片4.png"><figcaption aria-hidden="true">图片4.png</figcaption>
+</figure>
+<p>加密结果作为下一轮密钥</p>
+<h3 id="公钥密码rsa">公钥密码：RSA</h3>
+<p>RSA是ctf比赛中最常见的加密算法，有多种多样的攻击方式。</p>
+<h4 id="加解密算法">加解密算法</h4>
+<p><span class="math display">\[
+费马小定理：若p是素数，a是正整数且不能被p整除，则a^{p-1}modp \equiv  1，那么a^{p}modp \equiv a\\
+欧拉函数：\phi(n)的值是从1到n-1和n互质的数的数量。\\
+显然，对于质数n \phi(n)=n-1，如果n为两个质数p和q的乘积，\phi(n)=(p-1)*(q-1).\\
+欧拉定理：对于任意互质的a和n有：a^{\phi(n)}\equiv1modn.\\
+RSA加密算法：随机选择两个大素数p和q，计算n=p*q以及phi=(p-1)*(q-1).\\
+选择一个与\phi(n)互质的数e作为加密指数，对e求关于phi的逆作为d，即ed\equiv1mod\phi(n).\\
+加密：c=m^emodn\\
+解密：m=c^dmodn=(m^emodn)^dmodn=m.
+\]</span></p>
+<h3 id="公钥密码elgamal">公钥密码：Elgamal</h3>
+<p>假设A和B互相通信，共享大素数p，本原元素<span class="math inline">\(\alpha\)</span>，明文m&lt;p，通信时A的私钥为<span class="math inline">\(x_a\)</span>，公钥为<span class="math inline">\(Y_a=\alpha^{x_a}modp\)</span>，B的私钥为<span class="math inline">\(x_b\)</span>，公钥为<span class="math inline">\(Y_b=\alpha^{x_b}modp\)</span>，A向B发送消息，计算K=<span class="math inline">\(Y_b^{x_a}modp\)</span>=<span class="math inline">\(\alpha^{x_ax_b}modp\)</span>，<span class="math inline">\(c_1=\alpha^{x_a}modp，c_2=mKmodp\)</span>，密文即为(<span class="math inline">\(c_1，c_2\)</span>)。</p>
+<p>B收到信息后，首先恢复K，K=<span class="math inline">\(c_1^{x_b}modp\)</span>，然后m=<span class="math inline">\(c_2/Kmodp\)</span>.</p>
+<p>每次随机选择私钥发送信息，同样的密文每次加密出不同的密文。</p>
+<h3 id="公钥密码ecc">公钥密码：ECC</h3>
+<p>最简单的一类椭圆曲线：<span class="math inline">\(y^2=x^3+ax+b\)</span>.</p>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/HTgMhofD4AtijC1.png" alt="image.png"><figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>加法与乘法的定义：连线与切线。</p>
+<p>加密时，A选取一条椭圆曲线<span class="math inline">\(E_p(a,b)\)</span>并选择其中一点G，选取私钥k计算kG作为公钥。</p>
+<p>A将E，K，G发送给B。</p>
+<p>B将明文m转换为E上的一个点M，并生成一个随机数r，计算<span class="math inline">\(c_1=M+rK，c_2=rG\)</span>，发送<span class="math inline">\(c_1,c_2\)</span></p>
+<p>A计算<span class="math inline">\(c_1-kc_2\)</span>即可解密。</p>
+<h3 id="格密码">格密码</h3>
+<p>涉及线代知识，目前阶段不作为重点。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/29/%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BE%8B%E4%BC%9A-python%E5%9F%BA%E7%A1%80/" rel="prev" title="第一次例会-python基础">
+      <i class="fa fa-chevron-left"></i> 第一次例会-python基础
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">密码学入门</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">古典密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%AF%E6%92%92"><span class="nav-number">1.1.1.</span> <span class="nav-text">凯撒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%98%E5%BC%82%E5%87%AF%E6%92%92"><span class="nav-number">1.1.2.</span> <span class="nav-text">变异凯撒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A%E5%8A%A0%E5%AF%86"><span class="nav-number">1.1.3.</span> <span class="nav-text">维吉尼亚加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90"><span class="nav-number">1.1.4.</span> <span class="nav-text">词频分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%B0%E4%BB%A3%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">现代密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%90%86%E8%AE%BA%E5%AE%89%E5%85%A8%E4%B8%8E%E5%AE%9E%E9%99%85%E5%AE%89%E5%85%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">理论安全与实际安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81des"><span class="nav-number">1.2.2.</span> <span class="nav-text">分组密码：DES</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">分组密码的工作模式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%B5%E5%AD%90%E5%AF%86%E7%A0%81%E6%9C%AC%E6%A8%A1%E5%BC%8Fecb"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">电子密码本模式，ECB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E6%96%87%E5%88%86%E7%BB%84%E9%93%BE%E6%8E%A5%E6%A8%A1%E5%BC%8F-cbc"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">密文分组链接模式 CBC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E7%A0%81%E5%8F%8D%E9%A6%88%E6%A8%A1%E5%BC%8F-cfb"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">密码反馈模式 CFB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BE%93%E5%87%BA%E5%8F%8D%E9%A6%88%E6%A8%A1%E5%BC%8F-ofb"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">输出反馈模式 OFB</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81rsa"><span class="nav-number">1.2.4.</span> <span class="nav-text">公钥密码：RSA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A0%E8%A7%A3%E5%AF%86%E7%AE%97%E6%B3%95"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">加解密算法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81elgamal"><span class="nav-number">1.2.5.</span> <span class="nav-text">公钥密码：Elgamal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AC%E9%92%A5%E5%AF%86%E7%A0%81ecc"><span class="nav-number">1.2.6.</span> <span class="nav-text">公钥密码：ECC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%BC%E5%AF%86%E7%A0%81"><span class="nav-number">1.2.7.</span> <span class="nav-text">格密码</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="sha&blog"
+      src="/images/111.jpg">
+  <p class="site-author-name" itemprop="name">sha&blog</p>
+  <div class="site-description" itemprop="description">请务必休息一天</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">sha&blog</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">59k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:05</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

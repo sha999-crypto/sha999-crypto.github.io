@@ -60,25 +60,6 @@
       </tags>
   </entry>
   <entry>
-    <title>buu刷题记录：[pasecactf_2019]tornado_casino</title>
-    <url>/2022/06/03/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A%5Bpasecactf_2019%5Dtornado_casino/</url>
-    <content><![CDATA[<p>首先打开py文件看一眼，输3退出，输2再输b33_1_4m_b3333会让某个自减的东西加一千，输1时会生成一个32位的随机数，并且将输入的随机数与其自己生成的随机数比较，相等则返回flag。</p>
-<p>那么题目的思路就很明确了：生成624个随机数并且使用randcrack库计算第625个随机数上传即可。</p>
-<span id="more"></span>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> randcrack <span class="keyword">import</span> RandCrack</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">sh = remote(<span class="string">&#x27;node4.buuoj.cn&#x27;</span>, <span class="number">29318</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;Enter your promocode:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;b33_1_4m_b3333&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line">num = []</span><br><span class="line"></span><br><span class="line">rc = RandCrack()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">624</span>):</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;1234&#x27;</span>)</span><br><span class="line">    data = sh.recvline()</span><br><span class="line">    data = <span class="built_in">str</span>(data)</span><br><span class="line">    data1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">        data1 += data[<span class="number">4</span> + <span class="number">2</span> * j]</span><br><span class="line">    rc.submit(<span class="built_in">int</span>(data1, <span class="number">16</span>))</span><br><span class="line">aa = rc.predict_getrandbits(<span class="number">32</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="built_in">hex</span>(aa).encode())</span><br><span class="line">sh.recvlines(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
-<ul>
-<li>flag:　flag{b346a745-1b98-4908-8e2e-7b25d3d5a46f}</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Crypto</category>
-      </categories>
-      <tags>
-        <tag>mt19937</tag>
-        <tag>pwntools</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python环境配置</title>
     <url>/2022/09/27/python%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="安装anaconda">1.安装anaconda</h2>
@@ -111,6 +92,25 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
 <p>安装密码需要的Crypto库和pwn需要的pwntools。</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>buu刷题记录：[pasecactf_2019]tornado_casino</title>
+    <url>/2022/06/03/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A%5Bpasecactf_2019%5Dtornado_casino/</url>
+    <content><![CDATA[<p>首先打开py文件看一眼，输3退出，输2再输b33_1_4m_b3333会让某个自减的东西加一千，输1时会生成一个32位的随机数，并且将输入的随机数与其自己生成的随机数比较，相等则返回flag。</p>
+<p>那么题目的思路就很明确了：生成624个随机数并且使用randcrack库计算第625个随机数上传即可。</p>
+<span id="more"></span>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> pwn <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> randcrack <span class="keyword">import</span> RandCrack</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">context.log_level = <span class="string">&#x27;debug&#x27;</span></span><br><span class="line"></span><br><span class="line">sh = remote(<span class="string">&#x27;node4.buuoj.cn&#x27;</span>, <span class="number">29318</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;2&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;Enter your promocode:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;b33_1_4m_b3333&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[3] - Exit\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;1&#x27;</span>)</span><br><span class="line">num = []</span><br><span class="line"></span><br><span class="line">rc = RandCrack()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">624</span>):</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">    sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">    sh.sendline(<span class="string">b&#x27;1234&#x27;</span>)</span><br><span class="line">    data = sh.recvline()</span><br><span class="line">    data = <span class="built_in">str</span>(data)</span><br><span class="line">    data1 = <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">8</span>):</span><br><span class="line">        data1 += data[<span class="number">4</span> + <span class="number">2</span> * j]</span><br><span class="line">    rc.submit(<span class="built_in">int</span>(data1, <span class="number">16</span>))</span><br><span class="line">aa = rc.predict_getrandbits(<span class="number">32</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;[$] - $$$SPIN$$$\n&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="string">b&#x27;$&#x27;</span>)</span><br><span class="line">sh.recvuntil(<span class="string">&#x27;It will be:&#x27;</span>)</span><br><span class="line">sh.sendline(<span class="built_in">hex</span>(aa).encode())</span><br><span class="line">sh.recvlines(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>flag:　flag{b346a745-1b98-4908-8e2e-7b25d3d5a46f}</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>mt19937</tag>
+        <tag>pwntools</tag>
+      </tags>
   </entry>
   <entry>
     <title>六月作业</title>
@@ -371,6 +371,91 @@ B=(k_1k_2N,k_2(g+k_1s)M_1,g(k_1-k_2)M_2,(g+k_1s)(g+k_2s))\\
 ]]></content>
       <categories>
         <category>例会</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>第三次例会-密码学入门</title>
+    <url>/2022/10/11/%E7%AC%AC%E4%B8%89%E6%AC%A1%E4%BE%8B%E4%BC%9A-%E5%AF%86%E7%A0%81%E5%AD%A6%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h1 id="密码学入门">密码学入门</h1>
+<h2 id="古典密码">古典密码</h2>
+<h3 id="凯撒">凯撒</h3>
+<p>替换加密算法，26个字母在表上循环，向前或向后移n个字母。加密后移，解密前移。<a href="https://ctf.bugku.com/tool/caesar">凯撒</a></p>
+<h3 id="变异凯撒">变异凯撒</h3>
+<p>替换加密算法，循环顺序变为在ascii码表上循环。</p>
+<span id="more"></span>
+<h3 id="维吉尼亚加密">维吉尼亚加密</h3>
+<p>有字母表作为对照<img src="https://s2.loli.net/2022/10/11/FUEakgDSHZbK713.png" alt="字母表"></p>
+<p>假设明文是ATTACK，密钥是CAT，加密将密钥重复至与明文相同长度，CATCAT，一一对应查表加密。密文则是CTMCCD。</p>
+<h3 id="词频分析">词频分析</h3>
+<p>一段文章里，特定的字母出现的频率基本固定不变。比如字母e出现的频率最高，为0.12702，就可以分析密文的字母频率还原明文。</p>
+<p>或者知道替换字母，比如MTHJ{CUBCGXGUGXWREXIPOYAOEYFIGXWRXCHTKHFCOHCFDUCGTXZOHIXOEOWMEHZO}，<a href="https://quipqiup.com/">quipqiup</a></p>
+<h2 id="现代密码">现代密码</h2>
+<p>现代密码与古典密码的区别就是加密算法是否公开的区别。</p>
+<h3 id="理论安全与实际安全">理论安全与实际安全</h3>
+<p>理论安全，或无条件安全：攻击者无论截获多少密文，都无法得到足够的信息来唯一地决定明文。Shannon用理论证明：欲达理论安全，加密密钥长度必须大于等于明文长度，密钥只用一次，用完即丢，即一次一密。</p>
+<p>实际安全，或计算上安全：如果攻击者拥有无限资源，任何密码系统都是可以被破译的；但是，在有限的资源范围内，攻击者都不能通过系统的分析方法来破解系统，则称这个系统是计算上安全的或破译这个系统是计算上不可行。</p>
+<h3 id="分组密码des">分组密码：DES</h3>
+<p>明文加密16轮，初始的密钥经过16轮变换产生16个子密钥用来加密每一轮产生的密文。</p>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/tbLr3FDqVIGemK8.png" alt="image.png"><figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>密钥转换与左旋位数有转换表作为对照。</p>
+<p>加解密过程</p>
+<p><img src="https://s2.loli.net/2022/10/11/Pb3cYmQ8WivVN1S.png"></p>
+<p>DES已经被证明是不安全的，密钥可以通过穷举找出。现在一般采用3DES或者AES。</p>
+<h3 id="分组密码的工作模式">分组密码的工作模式</h3>
+<h4 id="电子密码本模式ecb">电子密码本模式，ECB</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/rqBjypQkZUKcIlR.png" alt="图片1.png"><figcaption aria-hidden="true">图片1.png</figcaption>
+</figure>
+<p>ECB模式特别适合数据较少的情况，如安全传输密钥。一段明文消息中若有几个相同的明文组，则密文也将出现几个相同的片段。对于很长的消息，ECB是不安全的，如果消息是非常结构化的，密码分析可能利用其结构特征来破解。</p>
+<h4 id="密文分组链接模式-cbc">密文分组链接模式 CBC</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/uUBEFt2SGnIyfzw.png" alt="图片2.png"><figcaption aria-hidden="true">图片2.png</figcaption>
+</figure>
+<p>加密输入是当前明文分组和前一密文分组的异或</p>
+<h4 id="密码反馈模式-cfb">密码反馈模式 CFB</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/hZmBrlfAvgQ5Vqk.png" alt="image.png"><figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>先加密初始向量再异或，异或结果作为下一轮密钥</p>
+<h4 id="输出反馈模式-ofb">输出反馈模式 OFB</h4>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/mwD7iq9PhcO84Kz.png" alt="图片4.png"><figcaption aria-hidden="true">图片4.png</figcaption>
+</figure>
+<p>加密结果作为下一轮密钥</p>
+<h3 id="公钥密码rsa">公钥密码：RSA</h3>
+<p>RSA是ctf比赛中最常见的加密算法，有多种多样的攻击方式。</p>
+<h4 id="加解密算法">加解密算法</h4>
+<p><span class="math display">\[
+费马小定理：若p是素数，a是正整数且不能被p整除，则a^{p-1}modp \equiv  1，那么a^{p}modp \equiv a\\
+欧拉函数：\phi(n)的值是从1到n-1和n互质的数的数量。\\
+显然，对于质数n \phi(n)=n-1，如果n为两个质数p和q的乘积，\phi(n)=(p-1)*(q-1).\\
+欧拉定理：对于任意互质的a和n有：a^{\phi(n)}\equiv1modn.\\
+RSA加密算法：随机选择两个大素数p和q，计算n=p*q以及phi=(p-1)*(q-1).\\
+选择一个与\phi(n)互质的数e作为加密指数，对e求关于phi的逆作为d，即ed\equiv1mod\phi(n).\\
+加密：c=m^emodn\\
+解密：m=c^dmodn=(m^emodn)^dmodn=m.
+\]</span></p>
+<h3 id="公钥密码elgamal">公钥密码：Elgamal</h3>
+<p>假设A和B互相通信，共享大素数p，本原元素<span class="math inline">\(\alpha\)</span>，明文m&lt;p，通信时A的私钥为<span class="math inline">\(x_a\)</span>，公钥为<span class="math inline">\(Y_a=\alpha^{x_a}modp\)</span>，B的私钥为<span class="math inline">\(x_b\)</span>，公钥为<span class="math inline">\(Y_b=\alpha^{x_b}modp\)</span>，A向B发送消息，计算K=<span class="math inline">\(Y_b^{x_a}modp\)</span>=<span class="math inline">\(\alpha^{x_ax_b}modp\)</span>，<span class="math inline">\(c_1=\alpha^{x_a}modp，c_2=mKmodp\)</span>，密文即为(<span class="math inline">\(c_1，c_2\)</span>)。</p>
+<p>B收到信息后，首先恢复K，K=<span class="math inline">\(c_1^{x_b}modp\)</span>，然后m=<span class="math inline">\(c_2/Kmodp\)</span>.</p>
+<p>每次随机选择私钥发送信息，同样的密文每次加密出不同的密文。</p>
+<h3 id="公钥密码ecc">公钥密码：ECC</h3>
+<p>最简单的一类椭圆曲线：<span class="math inline">\(y^2=x^3+ax+b\)</span>.</p>
+<figure>
+<img src="https://s2.loli.net/2022/10/11/HTgMhofD4AtijC1.png" alt="image.png"><figcaption aria-hidden="true">image.png</figcaption>
+</figure>
+<p>加法与乘法的定义：连线与切线。</p>
+<p>加密时，A选取一条椭圆曲线<span class="math inline">\(E_p(a,b)\)</span>并选择其中一点G，选取私钥k计算kG作为公钥。</p>
+<p>A将E，K，G发送给B。</p>
+<p>B将明文m转换为E上的一个点M，并生成一个随机数r，计算<span class="math inline">\(c_1=M+rK，c_2=rG\)</span>，发送<span class="math inline">\(c_1,c_2\)</span></p>
+<p>A计算<span class="math inline">\(c_1-kc_2\)</span>即可解密。</p>
+<h3 id="格密码">格密码</h3>
+<p>涉及线代知识，目前阶段不作为重点。</p>
+]]></content>
+      <categories>
+        <category>Crypto</category>
       </categories>
   </entry>
   <entry>
